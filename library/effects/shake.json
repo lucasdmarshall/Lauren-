@@ -1,0 +1,15 @@
+{
+  "id": "shake",
+  "kind": "effect",
+  "name": "Camera shake",
+  "description": "Short camera shake. Emphasises impact: landings, hits, bass drops. Keep it brief.",
+  "tags": ["energetic", "impact"],
+  "duration": { "default": 0.3, "min": 0.1, "max": 2 },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "intensity": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.5, "description": "Shake strength." }
+    }
+  }
+}

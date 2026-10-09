@@ -1,0 +1,15 @@
+{
+  "id": "black_white",
+  "kind": "effect",
+  "name": "Black and white",
+  "description": "Removes color. Signals a flashback, a dramatic pause or a contrast with the colorful clips around it.",
+  "tags": ["dramatic", "cinematic"],
+  "duration": { "default": 1, "min": 0.1 },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": { "type": "number", "minimum": 0, "maximum": 1, "default": 1, "description": "1 is fully black and white." }
+    }
+  }
+}

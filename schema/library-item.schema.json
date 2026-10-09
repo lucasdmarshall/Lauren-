@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lauren.app/schema/library-item/0.1.json",
+  "title": "Lauren Library Item",
+  "description": "Manifest for one effect, transition or animation. The AI receives a catalog built from these manifests and picks items by id; nothing about individual items is hardcoded in the edit plan schema or the app.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "name", "description", "params_schema"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$" },
+    "kind": { "enum": ["effect", "transition", "animation"] },
+    "version": { "type": "string", "default": "1.0.0" },
+    "name": { "type": "string", "description": "Display name in the UI." },
+    "description": {
+      "type": "string",
+      "description": "What it looks like and when to use it. Written for the AI: this is how it chooses."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Mood and style hints, e.g. energetic, smooth, comedic, cinematic."
+    },
+    "duration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default"],
+      "properties": {
+        "default": { "type": "number", "minimum": 0 },
+        "min": { "type": "number", "minimum": 0 },
+        "max": { "type": "number", "minimum": 0 }
+      }
+    },
+    "overlap": {
+      "type": "boolean",
+      "default": false,
+      "description": "Transitions only. true: both clips are visible at once, so they overlap by the duration and the timeline gets shorter. false: applied to the end of the previous clip and the start of the next, timeline length unchanged."
+    },
+    "params_schema": {
+      "type": "object",
+      "description": "JSON Schema (type object) for the item's parameters. Every parameter needs a default and a description so the AI can use it."
+    },
+    "render": {
+      "type": "object",
+      "description": "How the engine draws the item. Format not decided yet (see docs/LIBRARY.md)."
+    }
+  }
+}

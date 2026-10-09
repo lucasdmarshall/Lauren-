@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://lauren.app/schema/edit-plan/0.1.json",
   "title": "Lauren Edit Plan",
-  "description": "An edit produced by the AI (or by the user on the timeline). All times are in seconds; the render engine snaps them to the output frame grid.",
+  "description": "An edit produced by the AI (or by the user on the timeline). All times are in seconds; the render engine snaps them to the output frame grid. Effects, transitions and animations are not defined here: the plan references items in the library (library/) by id, and their parameters are checked against each item's manifest.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -302,16 +302,12 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "type"
+        "ref"
       ],
+      "description": "An effect from library/effects, applied to part of a clip.",
       "properties": {
-        "type": {
-          "enum": [
-            "shake",
-            "flash",
-            "blur",
-            "black_white"
-          ]
+        "ref": {
+          "$ref": "#/$defs/ref"
         },
         "start": {
           "$ref": "#/$defs/seconds",
@@ -321,11 +317,8 @@
           "$ref": "#/$defs/seconds",
           "description": "Default: until the clip ends."
         },
-        "intensity": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1,
-          "default": 0.5
+        "params": {
+          "$ref": "#/$defs/params"
         }
       }
     },
@@ -333,42 +326,24 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "type"
+        "ref"
       ],
+      "description": "A transition from library/transitions. It never uses media outside 'in'/'out'. Whether the two clips overlap (and the timeline gets shorter by 'duration') is set by the item's manifest.",
       "properties": {
-        "type": {
-          "enum": [
-            "cut",
-            "crossfade",
-            "dip_to_black",
-            "slide",
-            "zoom",
-            "whip",
-            "spin",
-            "glitch",
-            "flash",
-            "salt"
-          ],
-          "description": "'salt' is reserved; its exact behaviour is defined during development."
+        "ref": {
+          "$ref": "#/$defs/ref"
         },
         "duration": {
           "$ref": "#/$defs/seconds",
-          "default": 0.3,
-          "description": "Never uses media outside 'in'/'out', because short clips have no spare footage. crossfade and slide overlap the two clips by 'duration' and shorten the timeline by that amount. All other types apply to the last half of the previous clip and the first half of this one, and do not change the timeline length."
-        },
-        "direction": {
-          "enum": [
-            "left",
-            "right",
-            "up",
-            "down"
-          ],
-          "description": "For slide, whip and spin."
+          "description": "Default and allowed range come from the item's manifest."
         },
         "beat_sync": {
           "type": "boolean",
           "default": false,
           "description": "Snap the cut to the nearest beat of the music."
+        },
+        "params": {
+          "$ref": "#/$defs/params"
         }
       }
     },
@@ -418,22 +393,12 @@
           "default": 0
         },
         "animation_in": {
-          "enum": [
-            "none",
-            "pop",
-            "fade",
-            "slide_up"
-          ],
-          "default": "pop"
+          "$ref": "#/$defs/animation",
+          "description": "Omit for no animation."
         },
         "animation_out": {
-          "enum": [
-            "none",
-            "pop",
-            "fade",
-            "slide_down"
-          ],
-          "default": "fade"
+          "$ref": "#/$defs/animation",
+          "description": "Omit for no animation."
         },
         "note": {
           "$ref": "#/$defs/note"
@@ -490,6 +455,35 @@
         },
         "note": {
           "$ref": "#/$defs/note"
+        }
+      }
+    },
+    "ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "description": "Id of a library item of the kind the slot expects."
+    },
+    "params": {
+      "type": "object",
+      "description": "Values for the library item's parameters. Checked against the item's params_schema; omitted parameters use the item's defaults."
+    },
+    "animation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref"
+      ],
+      "description": "An in or out animation from library/animations.",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "duration": {
+          "$ref": "#/$defs/seconds",
+          "description": "Default and allowed range come from the item's manifest."
+        },
+        "params": {
+          "$ref": "#/$defs/params"
         }
       }
     }

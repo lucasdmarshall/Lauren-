@@ -1,0 +1,16 @@
+{
+  "id": "whip",
+  "kind": "transition",
+  "name": "Whip pan",
+  "description": "Fast motion-blurred pan out of the previous clip and into the next, as if the camera was swung. High energy; works best on a beat and between clips with movement.",
+  "tags": ["energetic", "fast", "trendy"],
+  "duration": { "default": 0.25, "min": 0.1, "max": 0.6 },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": { "enum": ["left", "right", "up", "down"], "default": "left", "description": "Direction of the pan. Match the motion in the clips where possible." },
+      "blur": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.7, "description": "Amount of motion blur." }
+    }
+  }
+}

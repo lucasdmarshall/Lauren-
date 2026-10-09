@@ -1,0 +1,15 @@
+{
+  "id": "slide",
+  "kind": "animation",
+  "name": "Slide",
+  "description": "Moves in from (or out to) an edge of the frame.",
+  "tags": ["smooth"],
+  "duration": { "default": 0.3, "min": 0.1, "max": 1.5 },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": { "enum": ["left", "right", "up", "down"], "default": "up", "description": "Direction of travel." }
+    }
+  }
+}

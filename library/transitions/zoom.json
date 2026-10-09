@@ -1,0 +1,17 @@
+{
+  "id": "zoom",
+  "kind": "transition",
+  "name": "Zoom through",
+  "description": "Rapid zoom into the previous clip that lands zoomed-out in the next. Punchy; good for reveals and drops.",
+  "tags": ["energetic", "punchy", "reveal"],
+  "duration": { "default": 0.3, "min": 0.15, "max": 0.8 },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "strength": { "type": "number", "minimum": 0.1, "maximum": 1, "default": 0.6, "description": "How far it zooms." },
+      "x": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.5, "description": "Horizontal zoom center." },
+      "y": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.5, "description": "Vertical zoom center." }
+    }
+  }
+}

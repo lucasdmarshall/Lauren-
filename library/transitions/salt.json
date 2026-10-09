@@ -1,0 +1,9 @@
+{
+  "id": "salt",
+  "kind": "transition",
+  "name": "Salt",
+  "description": "TikTok-style transition with frame-precise timing. Placeholder: behaviour and parameters are defined during development.",
+  "tags": ["trendy", "precise"],
+  "duration": { "default": 0.3 },
+  "params_schema": { "type": "object", "properties": {} }
+}

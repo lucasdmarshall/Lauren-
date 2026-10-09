@@ -1,0 +1,9 @@
+{
+  "id": "fade",
+  "kind": "animation",
+  "name": "Fade",
+  "description": "Fades opacity in or out. Subtle; works for any overlay.",
+  "tags": ["smooth", "subtle"],
+  "duration": { "default": 0.3, "min": 0.05, "max": 2 },
+  "params_schema": { "type": "object", "properties": {} }
+}

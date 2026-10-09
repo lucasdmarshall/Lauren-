@@ -1,14 +1,66 @@
 {
   "schema_version": "0.1",
   "summary": "Four short clips from the skate session, reordered into a build-up: arrival, warm-up, kickflip, celebration. Cut to the beat with whip and zoom transitions, upbeat music and a fire sticker on the landing.",
-  "output": { "aspect_ratio": "9:16", "resolution": "1080p", "fps": 30, "background": "blur" },
+  "output": {
+    "aspect_ratio": "9:16",
+    "resolution": "1080p",
+    "fps": 30,
+    "background": "blur"
+  },
   "assets": [
-    { "id": "v1", "kind": "video", "src": "footage/IMG_2041.mp4", "duration": 6.4, "width": 1920, "height": 1080, "has_audio": true, "label": "IMG_2041.mp4" },
-    { "id": "v2", "kind": "video", "src": "footage/IMG_2038.mp4", "duration": 3.1, "width": 1080, "height": 1920, "has_audio": true, "label": "IMG_2038.mp4" },
-    { "id": "v3", "kind": "video", "src": "footage/IMG_2039.mp4", "duration": 4.8, "width": 1080, "height": 1920, "has_audio": true, "label": "IMG_2039.mp4" },
-    { "id": "v4", "kind": "video", "src": "footage/IMG_2044.mp4", "duration": 2.9, "width": 1080, "height": 1920, "has_audio": true, "label": "IMG_2044.mp4" },
-    { "id": "m1", "kind": "audio", "src": "music/upbeat.mp3", "duration": 151.2, "label": "upbeat.mp3" },
-    { "id": "s1", "kind": "sticker", "src": "stickers/fire.png", "label": "fire" }
+    {
+      "id": "v1",
+      "kind": "video",
+      "src": "footage/IMG_2041.mp4",
+      "duration": 6.4,
+      "width": 1920,
+      "height": 1080,
+      "has_audio": true,
+      "label": "IMG_2041.mp4"
+    },
+    {
+      "id": "v2",
+      "kind": "video",
+      "src": "footage/IMG_2038.mp4",
+      "duration": 3.1,
+      "width": 1080,
+      "height": 1920,
+      "has_audio": true,
+      "label": "IMG_2038.mp4"
+    },
+    {
+      "id": "v3",
+      "kind": "video",
+      "src": "footage/IMG_2039.mp4",
+      "duration": 4.8,
+      "width": 1080,
+      "height": 1920,
+      "has_audio": true,
+      "label": "IMG_2039.mp4"
+    },
+    {
+      "id": "v4",
+      "kind": "video",
+      "src": "footage/IMG_2044.mp4",
+      "duration": 2.9,
+      "width": 1080,
+      "height": 1920,
+      "has_audio": true,
+      "label": "IMG_2044.mp4"
+    },
+    {
+      "id": "m1",
+      "kind": "audio",
+      "src": "music/upbeat.mp3",
+      "duration": 151.2,
+      "label": "upbeat.mp3"
+    },
+    {
+      "id": "s1",
+      "kind": "sticker",
+      "src": "stickers/fire.png",
+      "label": "fire"
+    }
   ],
   "clips": [
     {
@@ -16,7 +68,9 @@
       "asset": "v2",
       "in": 0.4,
       "out": 2.6,
-      "reframe": { "mode": "fill" },
+      "reframe": {
+        "mode": "fill"
+      },
       "note": "Opener: rider walks into the park. Uploaded second, but it sets the scene."
     },
     {
@@ -25,8 +79,17 @@
       "in": 1.0,
       "out": 4.2,
       "speed": 1.6,
-      "reframe": { "mode": "fill" },
-      "transition_in": { "type": "whip", "duration": 0.24, "direction": "left", "beat_sync": true },
+      "reframe": {
+        "mode": "fill"
+      },
+      "transition_in": {
+        "ref": "whip",
+        "duration": 0.24,
+        "beat_sync": true,
+        "params": {
+          "direction": "left"
+        }
+      },
       "note": "Warm-up run, sped up to keep the pace high."
     },
     {
@@ -34,14 +97,47 @@
       "asset": "v1",
       "in": 2.3,
       "out": 6.0,
-      "reframe": { "mode": "fill", "focus_x": 0.55 },
+      "reframe": {
+        "mode": "fill",
+        "focus_x": 0.55
+      },
       "transform": [
-        { "t": 0.0, "scale": 1.0 },
-        { "t": 1.6, "scale": 1.0, "easing": "hold" },
-        { "t": 1.9, "scale": 1.35, "x": 0.55, "y": 0.6, "easing": "ease_out" }
+        {
+          "t": 0.0,
+          "scale": 1.0
+        },
+        {
+          "t": 1.6,
+          "scale": 1.0,
+          "easing": "hold"
+        },
+        {
+          "t": 1.9,
+          "scale": 1.35,
+          "x": 0.55,
+          "y": 0.6,
+          "easing": "ease_out"
+        }
       ],
-      "effects": [{ "type": "shake", "start": 1.9, "duration": 0.3, "intensity": 0.4 }],
-      "transition_in": { "type": "zoom", "duration": 0.3, "beat_sync": true },
+      "effects": [
+        {
+          "ref": "shake",
+          "start": 1.9,
+          "duration": 0.3,
+          "params": {
+            "intensity": 0.4
+          }
+        }
+      ],
+      "transition_in": {
+        "ref": "zoom",
+        "duration": 0.3,
+        "beat_sync": true,
+        "params": {
+          "x": 0.55,
+          "y": 0.6
+        }
+      },
       "note": "The kickflip, shot horizontally; reframed onto the rider. Punch-in zoom and shake on the landing."
     },
     {
@@ -49,8 +145,14 @@
       "asset": "v4",
       "in": 0.0,
       "out": 2.9,
-      "reframe": { "mode": "fill" },
-      "transition_in": { "type": "flash", "duration": 0.2, "beat_sync": true },
+      "reframe": {
+        "mode": "fill"
+      },
+      "transition_in": {
+        "ref": "flash",
+        "duration": 0.2,
+        "beat_sync": true
+      },
       "note": "Celebration, used in full."
     }
   ],
@@ -63,7 +165,12 @@
       "x": 0.75,
       "y": 0.25,
       "scale": 0.2,
-      "animation_in": "pop",
+      "animation_in": {
+        "ref": "pop"
+      },
+      "animation_out": {
+        "ref": "fade"
+      },
       "note": "Highlights the landing."
     }
   ],

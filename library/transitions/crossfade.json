@@ -1,0 +1,10 @@
+{
+  "id": "crossfade",
+  "kind": "transition",
+  "name": "Crossfade",
+  "description": "The previous clip fades into the next. Soft and calm; suits slow, emotional or scenic moments. Avoid in fast, beat-driven edits.",
+  "tags": ["smooth", "calm", "emotional"],
+  "duration": { "default": 0.5, "min": 0.1, "max": 2 },
+  "overlap": true,
+  "params_schema": { "type": "object", "properties": {} }
+}

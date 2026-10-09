@@ -23,6 +23,10 @@ The user can refine an AI edit in two ways:
 
 The AI's output is an editable project, not a flattened video.
 
+## Effects, transitions and animations
+
+Nothing is hardcoded. Lauren ships libraries of effects, transitions and in/out animations, and the AI decides which to use for each edit. See [LIBRARY.md](LIBRARY.md).
+
 ## MVP features
 
 | Feature | Notes |

@@ -1,0 +1,15 @@
+{
+  "id": "flash",
+  "kind": "transition",
+  "name": "Flash",
+  "description": "Brief flash to a solid color at the cut. Marks a hit or a moment of impact; strong on a beat.",
+  "tags": ["energetic", "impact"],
+  "duration": { "default": 0.2, "min": 0.06, "max": 0.5 },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#ffffff", "description": "Flash color." }
+    }
+  }
+}

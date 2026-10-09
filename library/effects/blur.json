@@ -1,0 +1,15 @@
+{
+  "id": "blur",
+  "kind": "effect",
+  "name": "Blur",
+  "description": "Gaussian blur over the frame. Use to soften a background moment or hide something.",
+  "tags": ["soft"],
+  "duration": { "default": 1, "min": 0.1 },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "intensity": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.5, "description": "Blur radius, relative." }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "cut",
+  "kind": "transition",
+  "name": "Cut",
+  "description": "Hard cut with no effect. The default between clips; use when the change itself is the impact or when the edit should feel clean.",
+  "tags": ["clean", "neutral"],
+  "duration": { "default": 0, "min": 0, "max": 0 },
+  "params_schema": { "type": "object", "properties": {} }
+}
