@@ -1,0 +1,42 @@
+{
+  "id": "slow_down",
+  "kind": "ramp",
+  "name": "Slow down",
+  "description": "Smoothly decelerates from normal speed into slow motion, reaching it at the moment and staying slow. For endings, emotional beats and a final pose.",
+  "tags": [
+    "dramatic",
+    "emotional",
+    "ending"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "slow": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 0.9,
+        "default": 0.4,
+        "description": "Final speed."
+      },
+      "ease": {
+        "type": "number",
+        "minimum": 0.05,
+        "maximum": 2,
+        "default": 0.5,
+        "description": "Source seconds spent decelerating."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-ease",
+      "speed": "1",
+      "easing": "smooth"
+    },
+    {
+      "offset": "0",
+      "speed": "slow"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "bullet_time",
+  "kind": "ramp",
+  "name": "Bullet time",
+  "description": "Extreme slow motion in a short window with sharp ramps, like The Matrix. For split-second moments: a splash, a flip at its peak, a ball hitting.",
+  "tags": [
+    "dramatic",
+    "action",
+    "wow"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "fast": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 6,
+        "default": 1.2,
+        "description": "Speed before and after the slow part."
+      },
+      "slow": {
+        "type": "number",
+        "minimum": 0.05,
+        "maximum": 0.3,
+        "default": 0.12,
+        "description": "Slow-motion speed."
+      },
+      "before": {
+        "type": "number",
+        "minimum": 0.03,
+        "maximum": 1,
+        "default": 0.15,
+        "description": "Source seconds of slow motion before the moment."
+      },
+      "after": {
+        "type": "number",
+        "minimum": 0.03,
+        "maximum": 1,
+        "default": 0.25,
+        "description": "Source seconds of slow motion after the moment."
+      },
+      "ease": {
+        "type": "number",
+        "minimum": 0.03,
+        "maximum": 0.5,
+        "default": 0.12,
+        "description": "Source seconds spent ramping."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-(before + ease)",
+      "speed": "fast",
+      "easing": "smooth"
+    },
+    {
+      "offset": "-before",
+      "speed": "slow",
+      "easing": "hold"
+    },
+    {
+      "offset": "after",
+      "speed": "slow",
+      "easing": "smooth"
+    },
+    {
+      "offset": "after + ease",
+      "speed": "fast"
+    }
+  ]
+}

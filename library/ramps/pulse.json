@@ -1,0 +1,47 @@
+{
+  "id": "pulse",
+  "kind": "ramp",
+  "name": "Speed pulse",
+  "description": "A quick surge of speed around the moment that settles back to normal, like the footage lunging forward. Accents a beat without a long slow-motion section.",
+  "tags": [
+    "music",
+    "rhythmic",
+    "energetic"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "fast": {
+        "type": "number",
+        "minimum": 1.2,
+        "maximum": 6,
+        "default": 2.5,
+        "description": "Peak speed."
+      },
+      "width": {
+        "type": "number",
+        "minimum": 0.05,
+        "maximum": 1.5,
+        "default": 0.3,
+        "description": "Source seconds on each side of the peak."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-width",
+      "speed": "1",
+      "easing": "smooth"
+    },
+    {
+      "offset": "0",
+      "speed": "fast",
+      "easing": "smooth"
+    },
+    {
+      "offset": "width",
+      "speed": "1"
+    }
+  ]
+}

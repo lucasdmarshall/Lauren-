@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://lauren.app/schema/library-item/0.1.json",
   "title": "Lauren Library Item",
-  "description": "Manifest for one effect, transition or animation. The AI receives a catalog built from these manifests and picks items by id; nothing about individual items is hardcoded in the edit plan schema or the app.",
+  "description": "Manifest for one effect, transition, animation or speed ramp preset. The AI receives a catalog built from these manifests and picks items by id; nothing about individual items is hardcoded in the edit plan schema or the app.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -21,7 +21,8 @@
       "enum": [
         "effect",
         "transition",
-        "animation"
+        "animation",
+        "ramp"
       ]
     },
     "version": {
@@ -93,6 +94,64 @@
         "out"
       ],
       "description": "Animations only: which overlay slots the item can fill. 'in' plays as written; 'out' plays it in reverse; 'loop' repeats while the overlay is visible, with 'duration' as one cycle."
+    },
+    "points": {
+      "type": "array",
+      "minItems": 2,
+      "description": "Ramps only: the speed ramp this preset expands to. Offsets are source seconds relative to the moment the preset is placed at. 'offset' and 'speed' are numbers or arithmetic expressions over the preset's parameters (e.g. \"-(before + ease)\").",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "offset",
+          "speed"
+        ],
+        "properties": {
+          "offset": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "speed": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "easing": {
+            "enum": [
+              "linear",
+              "smooth",
+              "hold"
+            ],
+            "default": "smooth"
+          }
+        }
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "ramp"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "points"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "points"
+          ]
+        }
+      }
+    }
+  ]
 }

@@ -1,0 +1,62 @@
+{
+  "id": "velocity",
+  "kind": "ramp",
+  "name": "Velocity",
+  "description": "The TikTok velocity edit: footage races at high speed, then snaps into slow motion right on the beat and accelerates away again. Place 'at' on a beat that lands on a strong pose or move. Made for dance, outfits, cars and music edits.",
+  "tags": [
+    "trendy",
+    "music",
+    "energetic",
+    "dance"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "fast": {
+        "type": "number",
+        "minimum": 1.5,
+        "maximum": 8,
+        "default": 3,
+        "description": "Peak speed."
+      },
+      "slow": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 0.8,
+        "default": 0.35,
+        "description": "Speed on the beat."
+      },
+      "lead": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 2,
+        "default": 0.6,
+        "description": "Source seconds of acceleration into the beat."
+      },
+      "recover": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 2,
+        "default": 0.6,
+        "description": "Source seconds to speed back up after the beat."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-lead",
+      "speed": "fast",
+      "easing": "linear"
+    },
+    {
+      "offset": "0",
+      "speed": "slow",
+      "easing": "smooth"
+    },
+    {
+      "offset": "recover",
+      "speed": "fast"
+    }
+  ]
+}

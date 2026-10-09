@@ -1,0 +1,52 @@
+{
+  "id": "snap_slowmo",
+  "kind": "ramp",
+  "name": "Snap slow-mo",
+  "description": "Cuts instantly into slow motion at the moment with no easing, holds it, then snaps back. Punchy and comedic; good for reactions, fails and 'wait for it' moments.",
+  "tags": [
+    "comedic",
+    "impact",
+    "reaction"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "slow": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 0.8,
+        "default": 0.25,
+        "description": "Slow-motion speed."
+      },
+      "length": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 3,
+        "default": 0.6,
+        "description": "Source seconds shown in slow motion."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-0.04",
+      "speed": "1",
+      "easing": "hold"
+    },
+    {
+      "offset": "0",
+      "speed": "slow",
+      "easing": "hold"
+    },
+    {
+      "offset": "length",
+      "speed": "1",
+      "easing": "hold"
+    },
+    {
+      "offset": "length + 0.04",
+      "speed": "1"
+    }
+  ]
+}

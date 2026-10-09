@@ -1,0 +1,74 @@
+{
+  "id": "hero_slowmo",
+  "kind": "ramp",
+  "name": "Hero slow-mo",
+  "description": "Fast run-up that eases into slow motion through the key moment, then speeds back up. The classic sports/action highlight: place 'at' on the peak (landing, catch, kick, jump top).",
+  "tags": [
+    "action",
+    "sports",
+    "dramatic",
+    "highlight"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "fast": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 6,
+        "default": 1.5,
+        "description": "Speed before and after the slow part."
+      },
+      "slow": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 0.8,
+        "default": 0.3,
+        "description": "Slow-motion speed."
+      },
+      "before": {
+        "type": "number",
+        "minimum": 0.05,
+        "maximum": 2,
+        "default": 0.4,
+        "description": "Source seconds of slow motion before the moment."
+      },
+      "after": {
+        "type": "number",
+        "minimum": 0.05,
+        "maximum": 3,
+        "default": 0.5,
+        "description": "Source seconds of slow motion after the moment."
+      },
+      "ease": {
+        "type": "number",
+        "minimum": 0.05,
+        "maximum": 1,
+        "default": 0.3,
+        "description": "Source seconds spent ramping between speeds."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-(before + ease)",
+      "speed": "fast",
+      "easing": "smooth"
+    },
+    {
+      "offset": "-before",
+      "speed": "slow",
+      "easing": "hold"
+    },
+    {
+      "offset": "after",
+      "speed": "slow",
+      "easing": "smooth"
+    },
+    {
+      "offset": "after + ease",
+      "speed": "fast"
+    }
+  ]
+}

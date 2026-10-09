@@ -1,0 +1,59 @@
+{
+  "id": "fast_forward",
+  "kind": "ramp",
+  "name": "Fast forward",
+  "description": "Jumps into a burst of high speed starting at the moment, then eases back to normal. Compresses a long action (setup, travel, cooking step) into a quick, funny blur.",
+  "tags": [
+    "time",
+    "comedic",
+    "energetic"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "fast": {
+        "type": "number",
+        "minimum": 1.5,
+        "maximum": 16,
+        "default": 4,
+        "description": "Burst speed."
+      },
+      "length": {
+        "type": "number",
+        "minimum": 0.2,
+        "maximum": 10,
+        "default": 1.5,
+        "description": "Source seconds played fast."
+      },
+      "ease": {
+        "type": "number",
+        "minimum": 0.03,
+        "maximum": 1,
+        "default": 0.15,
+        "description": "Source seconds spent ramping in and out."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-ease",
+      "speed": "1",
+      "easing": "smooth"
+    },
+    {
+      "offset": "0",
+      "speed": "fast",
+      "easing": "hold"
+    },
+    {
+      "offset": "length",
+      "speed": "fast",
+      "easing": "smooth"
+    },
+    {
+      "offset": "length + ease",
+      "speed": "1"
+    }
+  ]
+}

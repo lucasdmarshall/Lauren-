@@ -193,7 +193,7 @@
         "speed": {
           "$ref": "#/$defs/speed_value",
           "default": 1,
-          "description": "Constant speed. Ignored when 'speed_ramp' is set."
+          "description": "Constant speed. Use only one of speed, speed_ramp and speed_preset."
         },
         "speed_ramp": {
           "type": "array",
@@ -201,7 +201,10 @@
           "items": {
             "$ref": "#/$defs/ramp_point"
           },
-          "description": "Speed that changes over the clip. Points are in source time, in increasing order. Before the first point the first speed applies; after the last, the last speed."
+          "description": "Speed that changes over the clip. Points are in source time, in increasing order. Before the first point the first speed applies; after the last, the last speed. Use only one of speed, speed_ramp and speed_preset."
+        },
+        "speed_preset": {
+          "$ref": "#/$defs/speed_preset"
         },
         "freezes": {
           "type": "array",
@@ -592,6 +595,27 @@
         },
         "at": {
           "$ref": "#/$defs/source_time"
+        }
+      }
+    },
+    "speed_preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "at"
+      ],
+      "description": "A speed ramp preset from library/ramps, placed at a moment in the clip.",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "at": {
+          "$ref": "#/$defs/source_time",
+          "description": "The moment the preset is built around, e.g. the landing of a jump."
+        },
+        "params": {
+          "$ref": "#/$defs/params"
         }
       }
     }

@@ -1,0 +1,42 @@
+{
+  "id": "slow_start",
+  "kind": "ramp",
+  "name": "Slow start",
+  "description": "Starts in slow motion and accelerates to normal speed by the moment. A dramatic opening, like a scene waking up.",
+  "tags": [
+    "dramatic",
+    "intro",
+    "cinematic"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "slow": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 0.9,
+        "default": 0.3,
+        "description": "Starting speed."
+      },
+      "ease": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 3,
+        "default": 0.8,
+        "description": "Source seconds spent accelerating."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "-ease",
+      "speed": "slow",
+      "easing": "smooth"
+    },
+    {
+      "offset": "0",
+      "speed": "1"
+    }
+  ]
+}

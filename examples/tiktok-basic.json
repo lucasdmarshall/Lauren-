@@ -97,30 +97,15 @@
       "asset": "v1",
       "in": 2.3,
       "out": 6.0,
-      "speed_ramp": [
-        {
-          "at": 2.3,
-          "speed": 1.5,
-          "easing": "hold"
-        },
-        {
-          "at": 3.7,
-          "speed": 1.5
-        },
-        {
-          "at": 4.0,
-          "speed": 0.3,
-          "easing": "hold"
-        },
-        {
-          "at": 4.6,
-          "speed": 0.3
-        },
-        {
-          "at": 5.0,
-          "speed": 1.5
+      "speed_preset": {
+        "ref": "hero_slowmo",
+        "at": 4.2,
+        "params": {
+          "slow": 0.3,
+          "before": 0.2,
+          "after": 0.4
         }
-      ],
+      },
       "reframe": {
         "mode": "fill",
         "focus_x": 0.55

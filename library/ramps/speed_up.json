@@ -1,0 +1,41 @@
+{
+  "id": "speed_up",
+  "kind": "ramp",
+  "name": "Speed up",
+  "description": "Smoothly accelerates from normal speed to fast from the moment onward. Skips boring stretches, builds energy, or shows time passing.",
+  "tags": [
+    "energetic",
+    "time"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "fast": {
+        "type": "number",
+        "minimum": 1.2,
+        "maximum": 8,
+        "default": 3,
+        "description": "Final speed."
+      },
+      "ease": {
+        "type": "number",
+        "minimum": 0.05,
+        "maximum": 2,
+        "default": 0.5,
+        "description": "Source seconds spent accelerating."
+      }
+    }
+  },
+  "points": [
+    {
+      "offset": "0",
+      "speed": "1",
+      "easing": "smooth"
+    },
+    {
+      "offset": "ease",
+      "speed": "fast"
+    }
+  ]
+}

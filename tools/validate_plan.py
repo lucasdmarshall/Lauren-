@@ -10,9 +10,11 @@ import sys
 import jsonschema
 
 from lauren_lib import SCHEMA_DIR, load_json, load_library
+from ramps import expand_preset
 from timing import layout, source_to_clip_time
 
 EPSILON = 1e-6
+SPEED_RANGE = (0.05, 16)
 CLIP_KINDS = {"video", "image"}
 OVERLAY_KINDS = {"image", "sticker"}
 
@@ -63,6 +65,8 @@ def validate(plan, library):
         return asset
 
     # Clips: source ranges and speed data. Timing can only be computed once these are sound.
+    # `resolved` holds the clips with any speed_preset expanded into speed_ramp points.
+    resolved = []
     timing_ok = True
     for clip in plan["clips"]:
         where = f"clip {clip['id']}"
@@ -70,18 +74,36 @@ def validate(plan, library):
         if clip["out"] <= clip["in"]:
             errors.append(f"{where}: out must be greater than in")
             timing_ok = False
+            resolved.append(clip)
             continue
         if asset and asset["kind"] == "video" and "duration" in asset and clip["out"] > asset["duration"] + EPSILON:
             errors.append(f"{where}: out {clip['out']} is past the end of asset {asset['id']} ({asset['duration']})")
-        ramp = clip.get("speed_ramp", [])
-        if ramp and "speed" in clip:
-            errors.append(f"{where}: use either speed or speed_ramp, not both")
+        modes = [k for k in ("speed", "speed_ramp", "speed_preset") if k in clip]
+        if len(modes) > 1:
+            errors.append(f"{where}: use only one of {', '.join(modes)}")
+        preset = clip.get("speed_preset")
+        if preset:
+            pwhere = f"{where} speed_preset"
+            manifest = check_library_ref(preset, "ramp", pwhere, library, errors)
+            if not manifest or not in_source(clip, preset["at"], pwhere, errors):
+                timing_ok = False
+                continue
+            ramp = expand_preset(preset, manifest)
+            if any(not clip["in"] <= p["at"] <= clip["out"] for p in ramp):
+                warnings.append(f"{pwhere}: {preset['ref']!r} at {preset['at']} extends past the clip's in/out; the ramp is cut off there")
+            if any(not SPEED_RANGE[0] <= p["speed"] <= SPEED_RANGE[1] for p in ramp):
+                errors.append(f"{pwhere}: params give a speed outside {SPEED_RANGE[0]}-{SPEED_RANGE[1]}x")
+                timing_ok = False
+            clip = {k: v for k, v in clip.items() if k != "speed_preset"} | {"speed_ramp": ramp}
+        else:
+            ramp = clip.get("speed_ramp", [])
+            for point in ramp:
+                in_source(clip, point["at"], f"{where} speed_ramp", errors)
         for a, b in zip(ramp, ramp[1:]):
             if b["at"] <= a["at"]:
                 errors.append(f"{where}: speed_ramp points must be in increasing source time")
                 timing_ok = False
-        for point in ramp:
-            in_source(clip, point["at"], f"{where} speed_ramp", errors)
+        resolved.append(clip)
         for freeze in clip.get("freezes", []):
             in_source(clip, freeze["at"], f"{where} freeze", errors)
         for kf in clip.get("transform", []):
@@ -101,10 +123,11 @@ def validate(plan, library):
         return errors, warnings, None
 
     overlap_by = {clip_id: duration for clip_id, (duration, overlap) in overlaps.items() if overlap}
-    positions, timeline = layout(plan, lambda clip: overlap_by.get(clip["id"], 0))
+    clips = {c["id"]: c for c in resolved}
+    positions, timeline = layout({"clips": resolved}, lambda clip: overlap_by.get(clip["id"], 0))
 
     prev = None
-    for clip in plan["clips"]:
+    for clip in resolved:
         where = f"clip {clip['id']}"
         _, length = positions[clip["id"]]
         if clip["id"] in overlaps and prev is not None:

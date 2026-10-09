@@ -1,4 +1,4 @@
-"""Shared helpers for loading the schemas and the effect/transition/animation library."""
+"""Shared helpers for loading the schemas and the library (effects, transitions, animations, ramps)."""
 
 import json
 from pathlib import Path
@@ -10,7 +10,7 @@ SCHEMA_DIR = ROOT / "schema"
 LIBRARY_DIR = ROOT / "library"
 
 # Library folder for each item kind.
-KIND_DIRS = {"effect": "effects", "transition": "transitions", "animation": "animations"}
+KIND_DIRS = {"effect": "effects", "transition": "transitions", "animation": "animations", "ramp": "ramps"}
 
 
 def load_json(path):
@@ -36,7 +36,26 @@ def load_library(library_dir=LIBRARY_DIR):
                 for field in ("default", "description"):
                     if field not in prop:
                         errors.append(f"param {name!r} has no {field}")
+            if kind == "ramp" and not errors:
+                errors += check_ramp_points(item)
             if errors:
                 raise ValueError(f"{path.relative_to(ROOT)}: " + "; ".join(errors))
             library[kind][item["id"]] = item
     return library
+
+
+def check_ramp_points(item):
+    """Expand a ramp preset with its defaults and check the result is a usable ramp."""
+    from ramps import evaluate, preset_params
+
+    params = preset_params(item, {})
+    try:
+        points = [(evaluate(p["offset"], params), evaluate(p["speed"], params)) for p in item["points"]]
+    except (ValueError, SyntaxError) as e:
+        return [str(e)]
+    errors = []
+    if any(b[0] <= a[0] for a, b in zip(points, points[1:])):
+        errors.append("point offsets must increase with default params")
+    if any(not 0.05 <= speed <= 16 for _, speed in points):
+        errors.append("point speeds must be within 0.05-16x with default params")
+    return errors

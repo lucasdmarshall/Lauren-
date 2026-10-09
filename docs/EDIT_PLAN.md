@@ -17,7 +17,7 @@ plan
 ├── output      aspect ratio, resolution, fps, background
 ├── assets      media the plan may use (filled by the app)
 ├── clips       main video track, played back to back
-│   └── speed / speed_ramp, freezes, reframe, transform (zoom/pan keyframes), effects*, transition_in*
+│   └── speed / speed_ramp / speed_preset*, freezes, reframe, transform (zoom/pan keyframes), effects*, transition_in*
 ├── overlays    stickers/images, placed at a timeline time or anchored to a clip moment; animation_in/out/loop*
 └── audio       music, placed like overlays; runs to the end of the edit by default
 
@@ -62,6 +62,14 @@ That is: fast run-up, smooth drop into 0.3x slow motion through the landing, smo
 - `preserve_pitch` (default true) keeps the clip's own audio at natural pitch.
 - `freezes` hold a single frame for a number of timeline seconds and add that time to the clip.
 
+Most ramps follow a few well-known shapes, so the AI usually places a **ramp preset** from the library instead of writing points:
+
+```json
+"speed_preset": { "ref": "hero_slowmo", "at": 4.2, "params": { "slow": 0.3 } }
+```
+
+`at` is the moment the shape is built around (the landing). The preset expands into `speed_ramp` points before timing is computed (`tools/ramps.py`). A clip uses exactly one of `speed`, `speed_ramp` and `speed_preset`. See [LIBRARY.md](LIBRARY.md#ramp-presets).
+
 ### 5. Built for many short clips
 The typical input is several short clips (a few seconds each) uploaded together. The AI combines them into one edit:
 
@@ -93,7 +101,8 @@ Flat objects with a `type` enum, no deep `oneOf` unions. This keeps the schema w
 - Every `ref` exists in the library for the right kind, its `params` match the item's `params_schema`, and its duration is within the item's range.
 - `out > in` for clips, and `out` is within the asset's duration.
 - Ids are unique, and every `asset` reference exists with a compatible `kind` (clips → video/image, audio → audio, overlays → image/sticker).
-- A clip has `speed` or `speed_ramp`, not both; ramp points are in increasing order.
+- A clip has at most one of `speed`, `speed_ramp`, `speed_preset`; ramp points are in increasing order; a preset's params keep speeds within 0.05–16x.
+- Warning: a preset whose shape extends past the clip's `in`/`out` (it is cut off there).
 - Every source time (`at` in ramps, freezes, keyframes, effects, anchors) is within the clip's `in`–`out`.
 - Overlays use exactly one of `start` or `anchor`; anchors point to an existing clip.
 - Effects end before their clip ends; overlays and audio end before the timeline ends (all computed with speed ramps, freezes and overlapping transitions).
@@ -107,5 +116,4 @@ Text and captions, color grading, multiple video tracks (picture-in-picture), ke
 ## Open questions
 
 - **Follow-up prompts:** the AI returns a full new plan (simple) or a patch (cheaper, safer for large plans). Start with full plans in the spike.
-- **Ramp presets:** common ramp shapes (hero slow-mo, montage, speed-up) could become library items the AI places with one reference instead of writing points.
 - **Beat data:** `beat_sync` needs beat times from the music. Analyse locally, or ask the AI.
