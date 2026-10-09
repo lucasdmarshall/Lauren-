@@ -1,0 +1,28 @@
+{
+  "id": "invert",
+  "kind": "effect",
+  "name": "Invert",
+  "description": "Inverts the colors like a negative. Jarring and edgy; use as a one-beat accent.",
+  "tags": [
+    "edgy",
+    "impact"
+  ],
+  "duration": {
+    "default": 0.15,
+    "min": 0.03,
+    "max": 2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 1,
+        "description": "1 is fully inverted."
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "zoom_out",
+  "kind": "transition",
+  "name": "Zoom out",
+  "description": "Previous clip shrinks away while the next starts pushed-in and settles. A pull-back reveal; works for showing context after a close-up.",
+  "tags": [
+    "reveal",
+    "energetic"
+  ],
+  "duration": {
+    "default": 0.35,
+    "min": 0.15,
+    "max": 0.8
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "strength": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 1,
+        "default": 0.6,
+        "description": "How far it zooms."
+      }
+    }
+  }
+}

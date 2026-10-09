@@ -1,0 +1,31 @@
+{
+  "id": "spin_loop",
+  "kind": "animation",
+  "name": "Spin",
+  "description": "Rotates continuously. Good for badges, records and loading-style stickers.",
+  "tags": [
+    "playful"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.3,
+    "max": 10
+  },
+  "slots": [
+    "loop"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "rotation": {
+        "enum": [
+          "clockwise",
+          "counterclockwise"
+        ],
+        "default": "clockwise",
+        "description": "Spin direction."
+      }
+    }
+  }
+}

@@ -6,10 +6,12 @@ Nothing about individual effects, transitions or animations is hardcoded in the 
 
 ```
 library/
-├── transitions/   cut, crossfade, whip, zoom, flash, salt (placeholder)
-├── effects/       shake, blur, black_white
-└── animations/    pop, fade, slide   (in/out animations for overlays)
+├── transitions/   40 items
+├── effects/       36 items
+└── animations/    29 items (in, out and loop animations for overlays)
 ```
+
+The full list is in [Catalog](#catalog) below.
 
 Adding a new item means adding a manifest (and, later, its render code). No schema, prompt or app change is needed.
 
@@ -41,6 +43,7 @@ Schema: [`schema/library-item.schema.json`](../schema/library-item.schema.json)
 | `description`, `tags` | Written for the AI. This is how it chooses between items, so describe the look **and when to use it**. |
 | `duration` | Default and allowed range. |
 | `overlap` | Transitions only: whether both clips are visible at once (the timeline gets shorter by the duration). |
+| `slots` | Animations only: `in`, `out` and/or `loop`. An `out` animation plays the item in reverse; a `loop` animation repeats while the overlay is visible, with `duration` as one cycle. Default `["in", "out"]`. |
 | `params_schema` | JSON Schema for the item's parameters. Every parameter needs a `default` and a `description`. |
 | `render` | How the engine draws it. Format still open (below). |
 
@@ -52,9 +55,135 @@ Schema: [`schema/library-item.schema.json`](../schema/library-item.schema.json)
 4. `tools/validate_plan.py` checks the plan against the schema **and** the library: unknown ids, invalid params, durations out of range, timeline maths including overlapping transitions.
 5. The render engine looks up each item's `render` definition and draws it.
 
+## Safety
+
+Flashing items (strobe) are capped at 3 flashes per second, following the WCAG threshold for photosensitive viewers. New items that flash must stay within that limit.
+
 ## Open questions
 
 - **Render format:** the same definition must drive the preview and the export. Candidate: GLSL shaders with parameters as uniforms, which can run in WebGL (preview) and in the Rust engine via wgpu (export). The open-source [gl-transitions](https://github.com/gl-transitions/gl-transitions) collection (MIT) uses this model and could seed the transition library. For the spike, items can map to FFmpeg filters instead.
-- **Catalog size:** with hundreds of items the catalog becomes expensive to send every time. Options: send only items matching the requested style, or a two-step request (pick categories, then items).
+- **Catalog size:** the current catalog is about 10k tokens (≈40 KB of compact JSON) per request. With hundreds of items the catalog becomes expensive to send every time. Options: send only items matching the requested style, or a two-step request (pick categories, then items).
 - **Third-party items:** whether creators or partners can add library items later (a marketplace), and how they are sandboxed.
 - **Salt:** placeholder manifest; parameters and render defined during development.
+
+## Catalog
+
+### Transitions
+
+| id | Name | Tags | Overlap |
+|---|---|---|---|
+| `blinds` | Blinds | graphic, stylish | yes |
+| `blur_dissolve` | Blur dissolve | smooth, dreamy, calm | yes |
+| `circle_reveal` | Circle reveal | reveal, playful | yes |
+| `clock_wipe` | Clock wipe | time, playful | yes |
+| `crossfade` | Crossfade | smooth, calm, emotional | yes |
+| `cube` | Cube | 3d, slick, tech | yes |
+| `cut` | Cut | clean, neutral | |
+| `dip` | Dip to color | calm, chapter, cinematic | |
+| `film_burn` | Film burn | vintage, cinematic, warm | yes |
+| `flash` | Flash | energetic, impact | |
+| `flip` | Card flip | 3d, reveal, playful | yes |
+| `glitch` | Glitch | edgy, tech, energetic | |
+| `ink` | Ink bleed | artistic, smooth | yes |
+| `kaleidoscope` | Kaleidoscope | trippy, music, wild | |
+| `light_leak` | Light leak | dreamy, warm, vintage | yes |
+| `luma_fade` | Luma fade | elegant, smooth | yes |
+| `mosaic` | Mosaic | graphic, stylish | yes |
+| `page_curl` | Page curl | classic, storytelling | yes |
+| `pixelate` | Pixelate | retro, gaming, playful | |
+| `push` | Push | clean, dynamic | yes |
+| `rgb_split` | RGB split | edgy, impact | |
+| `ripple` | Ripple | dreamy, liquid | yes |
+| `roll` | Camera roll | energetic, playful | |
+| `salt` | Salt | trendy, precise | |
+| `shake_cut` | Impact cut | impact, energetic | |
+| `shape_reveal` | Shape reveal | playful, reveal, cute | yes |
+| `slide` | Slide | clean, modern | yes |
+| `spin` | Spin | energetic, trendy, wild | |
+| `split_slide` | Split slide | reveal, bold, stylish | yes |
+| `stretch` | Stretch | playful, comedic, energetic | |
+| `strobe` | Strobe | energetic, music, wild | |
+| `stutter` | Stutter | trendy, music, rhythmic | |
+| `swirl` | Swirl | trippy, surreal | |
+| `tunnel` | Tunnel zoom | energetic, wild, reveal | |
+| `vhs_rewind` | VHS rewind | retro, vintage, comedic | |
+| `whip` | Whip pan | energetic, fast, trendy | |
+| `whip_zoom` | Whip zoom | energetic, trendy, fast | |
+| `wipe` | Wipe | clean, classic | yes |
+| `zoom` | Zoom through | energetic, punchy, reveal | |
+| `zoom_out` | Zoom out | reveal, energetic | |
+
+### Effects
+
+| id | Name | Tags |
+|---|---|---|
+| `black_white` | Black and white | dramatic, cinematic |
+| `blur` | Blur | soft |
+| `clone_grid` | Clone grid | graphic, music, bold |
+| `color_pop` | Color pop | stylish, focus, color |
+| `cool_tone` | Cool tone | cool, moody, color |
+| `duotone` | Duotone | graphic, bold, color |
+| `echo` | Echo trails | trippy, dreamy, dance |
+| `exposure_flash` | Exposure flash | impact, energetic |
+| `film_grain` | Film grain | cinematic, subtle |
+| `freeze` | Freeze frame | comedic, emphasis |
+| `glitch` | Glitch | edgy, tech |
+| `glow` | Glow | dreamy, glam |
+| `halftone` | Comic halftone | comedic, graphic, playful |
+| `heartbeat` | Heartbeat | dramatic, emotional |
+| `high_contrast` | High contrast | bold, color |
+| `invert` | Invert | edgy, impact |
+| `kaleidoscope` | Kaleidoscope | trippy, music |
+| `lens_distortion` | Fisheye | comedic, skate, playful |
+| `letterbox` | Cinematic bars | cinematic, dramatic |
+| `light_leak` | Light leak | dreamy, vintage, warm |
+| `mirror` | Mirror | trippy, stylish |
+| `motion_blur` | Motion blur | dynamic, smooth |
+| `neon` | Neon edges | futuristic, edgy, music |
+| `pixelate` | Pixelate | retro, gaming |
+| `radial_blur` | Zoom blur | energetic, focus |
+| `rgb_split` | RGB split | edgy, music |
+| `shake` | Camera shake | energetic, impact |
+| `sharpen` | Sharpen | subtle, fix |
+| `strobe` | Strobe | music, wild |
+| `teal_orange` | Teal & orange | cinematic, color |
+| `vhs` | VHS | retro, vintage, lo-fi |
+| `vignette` | Vignette | cinematic, subtle, focus |
+| `vintage` | Vintage | vintage, warm, color |
+| `warm_tone` | Warm tone | warm, color, subtle |
+| `wave` | Wave distortion | trippy, liquid |
+| `zoom_pulse` | Zoom pulse | energetic, music, rhythmic |
+
+### Animations
+
+| id | Name | Tags | Slots |
+|---|---|---|---|
+| `blur_in` | Blur in | smooth, cinematic | in, out |
+| `bounce` | Bounce | playful, energetic | in, out |
+| `drop` | Drop | playful, comedic | in, out |
+| `elastic` | Elastic | playful, cute | in, out |
+| `fade` | Fade | smooth, subtle | in, out |
+| `flicker` | Neon flicker | retro, night, stylish | in, out, loop |
+| `flip` | Flip | 3d, playful | in, out |
+| `float` | Float | subtle, calm | loop |
+| `glitch_in` | Glitch in | edgy, tech | in, out |
+| `grow` | Grow | clean, subtle | in, out |
+| `heartbeat` | Heartbeat | cute, emotional | loop |
+| `iris` | Iris | clean, reveal | in, out |
+| `pixel_in` | Pixel in | retro, gaming | in, out |
+| `pop` | Pop | playful, energetic | in, out |
+| `pulse` | Pulse | rhythmic, music | loop |
+| `rise` | Rise | subtle, elegant | in, out |
+| `roll_in` | Roll in | playful | in, out |
+| `rubber` | Squash & stretch | comedic, playful | in, out |
+| `shimmer` | Shimmer | glam, premium | loop |
+| `slide` | Slide | smooth | in, out |
+| `spin_in` | Spin in | playful, energetic | in, out |
+| `spin_loop` | Spin | playful | loop |
+| `stamp` | Stamp | impact, bold, comedic | in, out |
+| `sway` | Sway | playful, calm | loop |
+| `swing` | Swing | playful | in, out |
+| `whip_in` | Whip in | energetic, fast | in, out |
+| `wiggle` | Wiggle | playful, comedic | loop |
+| `wipe_in` | Wipe in | clean | in, out |
+| `zoom_in` | Zoom in | dynamic, bold | in, out |

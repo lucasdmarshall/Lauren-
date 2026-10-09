@@ -1,0 +1,34 @@
+{
+  "id": "rgb_split",
+  "kind": "effect",
+  "name": "RGB split",
+  "description": "Shifts the color channels apart for a chromatic, edgy look. Short bursts on hits; longer for a music-video vibe.",
+  "tags": [
+    "edgy",
+    "music"
+  ],
+  "duration": {
+    "default": 0.4,
+    "min": 0.05
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Channel separation."
+      },
+      "angle": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 360,
+        "default": 0,
+        "description": "Direction of the split in degrees."
+      }
+    }
+  }
+}

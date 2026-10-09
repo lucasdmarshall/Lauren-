@@ -1,0 +1,29 @@
+{
+  "id": "film_burn",
+  "kind": "transition",
+  "name": "Film burn",
+  "description": "Warm, organic burn of light through the frame as the clips change. Vintage and cinematic; suits travel, weddings and vlogs.",
+  "tags": [
+    "vintage",
+    "cinematic",
+    "warm"
+  ],
+  "duration": {
+    "default": 0.8,
+    "min": 0.3,
+    "max": 2
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ff7a1a",
+        "description": "Burn tint."
+      }
+    }
+  }
+}

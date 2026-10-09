@@ -1,0 +1,27 @@
+{
+  "id": "luma_fade",
+  "kind": "transition",
+  "name": "Luma fade",
+  "description": "The next clip appears through the brightest areas of the previous one first. Organic and elegant; suits fashion, beauty and nature.",
+  "tags": [
+    "elegant",
+    "smooth"
+  ],
+  "duration": {
+    "default": 0.7,
+    "min": 0.3,
+    "max": 2
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "invert": {
+        "type": "boolean",
+        "default": false,
+        "description": "Start from the darkest areas instead."
+      }
+    }
+  }
+}

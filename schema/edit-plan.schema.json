@@ -400,6 +400,10 @@
           "$ref": "#/$defs/animation",
           "description": "Omit for no animation."
         },
+        "animation_loop": {
+          "$ref": "#/$defs/animation",
+          "description": "Repeats while the overlay is visible, between its in and out animations. Omit for none."
+        },
         "note": {
           "$ref": "#/$defs/note"
         }

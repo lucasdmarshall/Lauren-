@@ -1,0 +1,34 @@
+{
+  "id": "glitch",
+  "kind": "effect",
+  "name": "Glitch",
+  "description": "Digital artifacts: blocks shift, lines tear, colors break. Edgy and techy; brief bursts work best.",
+  "tags": [
+    "edgy",
+    "tech"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.05
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "intensity": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Strength of the effect."
+      },
+      "frequency": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "How often glitches occur."
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "bounce",
+  "kind": "animation",
+  "name": "Bounce",
+  "description": "Drops in from an edge and bounces to rest. Fun and energetic; great for emojis and stickers.",
+  "tags": [
+    "playful",
+    "energetic"
+  ],
+  "duration": {
+    "default": 0.6,
+    "min": 0.2,
+    "max": 2
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "down",
+        "description": "Direction of travel."
+      },
+      "bounces": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5,
+        "default": 2,
+        "description": "Number of bounces."
+      }
+    }
+  }
+}

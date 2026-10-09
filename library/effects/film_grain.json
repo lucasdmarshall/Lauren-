@@ -1,0 +1,34 @@
+{
+  "id": "film_grain",
+  "kind": "effect",
+  "name": "Film grain",
+  "description": "Fine organic grain like film stock. Adds texture and a cinematic feel without changing color.",
+  "tags": [
+    "cinematic",
+    "subtle"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.3,
+        "description": "Grain strength."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.5,
+        "maximum": 3,
+        "default": 1,
+        "description": "Grain size."
+      }
+    }
+  }
+}

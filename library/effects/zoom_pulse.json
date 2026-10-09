@@ -1,0 +1,40 @@
+{
+  "id": "zoom_pulse",
+  "kind": "effect",
+  "name": "Zoom pulse",
+  "description": "Quick zoom bumps, usually on each beat, that bring a static shot to life. The go-to effect for music-driven edits.",
+  "tags": [
+    "energetic",
+    "music",
+    "rhythmic"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0.01,
+        "maximum": 0.4,
+        "default": 0.08,
+        "description": "Zoom per pulse (0.08 = 8%)."
+      },
+      "on_beats": {
+        "type": "boolean",
+        "default": true,
+        "description": "Pulse on music beats; otherwise every 'interval' seconds."
+      },
+      "interval": {
+        "type": "number",
+        "minimum": 0.1,
+        "maximum": 4,
+        "default": 0.5,
+        "description": "Seconds between pulses when not on beats."
+      }
+    }
+  }
+}

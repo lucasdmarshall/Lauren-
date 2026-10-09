@@ -1,0 +1,39 @@
+{
+  "id": "wipe",
+  "kind": "transition",
+  "name": "Wipe",
+  "description": "A soft or hard edge sweeps across the frame, revealing the next clip. Classic and readable; good for comparisons.",
+  "tags": [
+    "clean",
+    "classic"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.15,
+    "max": 1.5
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "right",
+        "description": "Direction the edge travels."
+      },
+      "softness": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.2,
+        "description": "Edge softness (0 = hard line)."
+      }
+    }
+  }
+}

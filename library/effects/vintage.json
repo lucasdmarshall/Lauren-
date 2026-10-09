@@ -1,0 +1,28 @@
+{
+  "id": "vintage",
+  "kind": "effect",
+  "name": "Vintage",
+  "description": "Faded blacks, warm tint and soft contrast like an old photo. Nostalgic; suits memories, family and travel.",
+  "tags": [
+    "vintage",
+    "warm",
+    "color"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.6,
+        "description": "Look strength."
+      }
+    }
+  }
+}

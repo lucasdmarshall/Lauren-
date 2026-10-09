@@ -1,0 +1,35 @@
+{
+  "id": "color_pop",
+  "kind": "effect",
+  "name": "Color pop",
+  "description": "Turns everything black and white except one color. Draws the eye to a single object, like a red dress or a product.",
+  "tags": [
+    "stylish",
+    "focus",
+    "color"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "hue": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 360,
+        "default": 0,
+        "description": "Hue to keep in degrees (0 red, 120 green, 240 blue)."
+      },
+      "tolerance": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.15,
+        "description": "How wide a range of hues to keep."
+      }
+    }
+  }
+}

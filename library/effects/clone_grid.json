@@ -1,0 +1,31 @@
+{
+  "id": "clone_grid",
+  "kind": "effect",
+  "name": "Clone grid",
+  "description": "Repeats the clip in a grid of tiles. Bold and graphic; good on beat drops and for product showcases.",
+  "tags": [
+    "graphic",
+    "music",
+    "bold"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "grid": {
+        "enum": [
+          "2x2",
+          "3x3",
+          "2x1",
+          "1x3"
+        ],
+        "default": "2x2",
+        "description": "Grid layout."
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "neon",
+  "kind": "effect",
+  "name": "Neon edges",
+  "description": "Outlines edges with glowing neon lines over a darkened image. Futuristic; suits dance, gaming and night scenes.",
+  "tags": [
+    "futuristic",
+    "edgy",
+    "music"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#00f0ff",
+        "description": "Neon color."
+      },
+      "darken": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.6,
+        "description": "How much the image underneath is darkened."
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "spin",
+  "kind": "transition",
+  "name": "Spin",
+  "description": "Fast rotation with motion blur out of the previous clip and into the next. Very high energy; use sparingly, on a strong beat or drop.",
+  "tags": [
+    "energetic",
+    "trendy",
+    "wild"
+  ],
+  "duration": {
+    "default": 0.35,
+    "min": 0.15,
+    "max": 0.8
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "rotation": {
+        "enum": [
+          "clockwise",
+          "counterclockwise"
+        ],
+        "default": "clockwise",
+        "description": "Spin direction."
+      },
+      "turns": {
+        "type": "number",
+        "minimum": 0.25,
+        "maximum": 3,
+        "default": 1,
+        "description": "Number of full turns."
+      },
+      "blur": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.7,
+        "description": "Amount of motion blur."
+      }
+    }
+  }
+}

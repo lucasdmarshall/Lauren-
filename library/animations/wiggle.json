@@ -1,0 +1,31 @@
+{
+  "id": "wiggle",
+  "kind": "animation",
+  "name": "Wiggle",
+  "description": "Small random rotations and shifts, like it is excited. Fun for emojis and reaction stickers.",
+  "tags": [
+    "playful",
+    "comedic"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.2,
+    "max": 4
+  },
+  "slots": [
+    "loop"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Wiggle strength."
+      }
+    }
+  }
+}

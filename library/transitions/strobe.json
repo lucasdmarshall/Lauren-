@@ -1,0 +1,35 @@
+{
+  "id": "strobe",
+  "kind": "transition",
+  "name": "Strobe",
+  "description": "Flashes alternate between the two clips before landing on the next. Raw energy for heavy beats and sports. Kept to at most 3 flashes per second for photosensitive viewers.",
+  "tags": [
+    "energetic",
+    "music",
+    "wild"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.7,
+    "max": 2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "flashes": {
+        "type": "integer",
+        "minimum": 2,
+        "maximum": 3,
+        "default": 3,
+        "description": "Number of flashes (at most 3 per second of duration)."
+      },
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Flash color."
+      }
+    }
+  }
+}

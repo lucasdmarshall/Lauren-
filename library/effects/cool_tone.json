@@ -1,0 +1,28 @@
+{
+  "id": "cool_tone",
+  "kind": "effect",
+  "name": "Cool tone",
+  "description": "Shifts color toward blue and cyan. Calm, moody or wintry.",
+  "tags": [
+    "cool",
+    "moody",
+    "color"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Coolness."
+      }
+    }
+  }
+}

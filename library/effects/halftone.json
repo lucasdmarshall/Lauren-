@@ -1,0 +1,33 @@
+{
+  "id": "halftone",
+  "kind": "effect",
+  "name": "Comic halftone",
+  "description": "Turns the image into comic-book dots. Pop-art and playful; good for reaction moments.",
+  "tags": [
+    "comedic",
+    "graphic",
+    "playful"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "dot_size": {
+        "type": "number",
+        "minimum": 2,
+        "maximum": 30,
+        "default": 6,
+        "description": "Dot size in output pixels."
+      },
+      "colored": {
+        "type": "boolean",
+        "default": true,
+        "description": "Keep color instead of black dots."
+      }
+    }
+  }
+}

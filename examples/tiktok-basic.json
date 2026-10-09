@@ -171,6 +171,10 @@
       "animation_out": {
         "ref": "fade"
       },
+      "animation_loop": {
+        "ref": "wiggle",
+        "duration": 0.6
+      },
       "note": "Highlights the landing."
     }
   ],

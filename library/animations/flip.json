@@ -1,0 +1,33 @@
+{
+  "id": "flip",
+  "kind": "animation",
+  "name": "Flip",
+  "description": "Flips in on a 3D axis like a card being turned over.",
+  "tags": [
+    "3d",
+    "playful"
+  ],
+  "duration": {
+    "default": 0.45,
+    "min": 0.15,
+    "max": 1.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "axis": {
+        "enum": [
+          "horizontal",
+          "vertical"
+        ],
+        "default": "horizontal",
+        "description": "Axis of the flip."
+      }
+    }
+  }
+}

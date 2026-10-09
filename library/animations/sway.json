@@ -1,0 +1,31 @@
+{
+  "id": "sway",
+  "kind": "animation",
+  "name": "Sway",
+  "description": "Rocks side to side like a pendulum.",
+  "tags": [
+    "playful",
+    "calm"
+  ],
+  "duration": {
+    "default": 1.5,
+    "min": 0.3,
+    "max": 6
+  },
+  "slots": [
+    "loop"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "angle": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 45,
+        "default": 8,
+        "description": "Maximum tilt in degrees."
+      }
+    }
+  }
+}

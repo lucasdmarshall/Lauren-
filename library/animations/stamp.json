@@ -1,0 +1,33 @@
+{
+  "id": "stamp",
+  "kind": "animation",
+  "name": "Stamp",
+  "description": "Slams down from large to normal size with a tiny screen shake. Strong emphasis; good for reactions and 'approved' moments.",
+  "tags": [
+    "impact",
+    "bold",
+    "comedic"
+  ],
+  "duration": {
+    "default": 0.3,
+    "min": 0.1,
+    "max": 1
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "shake": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Screen shake on impact."
+      }
+    }
+  }
+}

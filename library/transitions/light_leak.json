@@ -1,0 +1,39 @@
+{
+  "id": "light_leak",
+  "kind": "transition",
+  "name": "Light leak",
+  "description": "A soft wash of colored light sweeps across the cut. Warm, nostalgic and gentle; pairs well with golden-hour footage.",
+  "tags": [
+    "dreamy",
+    "warm",
+    "vintage"
+  ],
+  "duration": {
+    "default": 0.8,
+    "min": 0.3,
+    "max": 2
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffb36b",
+        "description": "Leak color."
+      },
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "right",
+        "description": "Direction the light sweeps."
+      }
+    }
+  }
+}

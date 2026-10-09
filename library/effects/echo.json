@@ -1,0 +1,35 @@
+{
+  "id": "echo",
+  "kind": "effect",
+  "name": "Echo trails",
+  "description": "Leaves fading ghost copies of moving subjects. Dreamy in dance and sports; trippy in music edits.",
+  "tags": [
+    "trippy",
+    "dreamy",
+    "dance"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "trails": {
+        "type": "integer",
+        "minimum": 2,
+        "maximum": 12,
+        "default": 4,
+        "description": "Number of ghost copies."
+      },
+      "decay": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "How quickly the trails fade."
+      }
+    }
+  }
+}

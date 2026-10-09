@@ -1,0 +1,30 @@
+{
+  "id": "shimmer",
+  "kind": "animation",
+  "name": "Shimmer",
+  "description": "A glint of light sweeps across periodically. Makes badges, logos and products feel premium.",
+  "tags": [
+    "glam",
+    "premium"
+  ],
+  "duration": {
+    "default": 1.5,
+    "min": 0.5,
+    "max": 6
+  },
+  "slots": [
+    "loop"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Glint color."
+      }
+    }
+  }
+}

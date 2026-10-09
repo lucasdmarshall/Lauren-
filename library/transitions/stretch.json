@@ -1,0 +1,32 @@
+{
+  "id": "stretch",
+  "kind": "transition",
+  "name": "Stretch",
+  "description": "The previous clip stretches like rubber in one direction and snaps into the next. Bouncy and fun; good for comedy and fast edits.",
+  "tags": [
+    "playful",
+    "comedic",
+    "energetic"
+  ],
+  "duration": {
+    "default": 0.3,
+    "min": 0.15,
+    "max": 0.7
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "up",
+        "description": "Direction of the stretch."
+      }
+    }
+  }
+}

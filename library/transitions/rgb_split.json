@@ -1,0 +1,35 @@
+{
+  "id": "rgb_split",
+  "kind": "transition",
+  "name": "RGB split",
+  "description": "Color channels tear apart and snap back together across the cut. A sharper, cleaner cousin of glitch; strong on hits.",
+  "tags": [
+    "edgy",
+    "impact"
+  ],
+  "duration": {
+    "default": 0.25,
+    "min": 0.08,
+    "max": 0.6
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "How far the channels separate."
+      },
+      "angle": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 360,
+        "default": 0,
+        "description": "Direction of the split in degrees."
+      }
+    }
+  }
+}

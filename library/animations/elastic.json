@@ -1,0 +1,32 @@
+{
+  "id": "elastic",
+  "kind": "animation",
+  "name": "Elastic",
+  "description": "Overshoots and wobbles like jelly before settling. Cute and bouncy.",
+  "tags": [
+    "playful",
+    "cute"
+  ],
+  "duration": {
+    "default": 0.7,
+    "min": 0.2,
+    "max": 2
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "wobble": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Wobble amount."
+      }
+    }
+  }
+}

@@ -88,9 +88,13 @@ def validate(plan, library):
     for item in plan.get("overlays", []):
         where = f"overlay {item['id']}"
         asset_for(item, OVERLAY_KINDS, where)
-        for slot in ("animation_in", "animation_out"):
-            if slot in item:
-                check_library_ref(item[slot], "animation", f"{where} {slot}", library, errors)
+        for slot in ("in", "out", "loop"):
+            animation = item.get(f"animation_{slot}")
+            if animation:
+                awhere = f"{where} animation_{slot}"
+                manifest = check_library_ref(animation, "animation", awhere, library, errors)
+                if manifest and slot not in manifest.get("slots", ["in", "out"]):
+                    errors.append(f"{awhere}: {animation['ref']!r} cannot be used as a {slot} animation")
 
     for item in plan.get("audio", []):
         where = f"audio {item['id']}"

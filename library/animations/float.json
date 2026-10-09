@@ -1,0 +1,31 @@
+{
+  "id": "float",
+  "kind": "animation",
+  "name": "Float",
+  "description": "Gently bobs up and down while visible. Keeps a sticker alive without distracting.",
+  "tags": [
+    "subtle",
+    "calm"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.5,
+    "max": 8
+  },
+  "slots": [
+    "loop"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "distance": {
+        "type": "number",
+        "minimum": 0.005,
+        "maximum": 0.1,
+        "default": 0.02,
+        "description": "Bob height as a fraction of frame height."
+      }
+    }
+  }
+}

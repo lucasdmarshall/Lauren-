@@ -1,0 +1,34 @@
+{
+  "id": "heartbeat",
+  "kind": "effect",
+  "name": "Heartbeat",
+  "description": "Double zoom pulse with a slight red vignette, like a heartbeat. Suspense, love or nervous moments.",
+  "tags": [
+    "dramatic",
+    "emotional"
+  ],
+  "duration": {
+    "default": 1.5,
+    "min": 0.3
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "bpm": {
+        "type": "number",
+        "minimum": 40,
+        "maximum": 160,
+        "default": 70,
+        "description": "Beats per minute."
+      },
+      "amount": {
+        "type": "number",
+        "minimum": 0.01,
+        "maximum": 0.2,
+        "default": 0.06,
+        "description": "Zoom per beat."
+      }
+    }
+  }
+}

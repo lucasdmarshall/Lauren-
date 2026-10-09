@@ -1,0 +1,34 @@
+{
+  "id": "light_leak",
+  "kind": "effect",
+  "name": "Light leak",
+  "description": "Drifting warm light washes over the frame. Nostalgic and soft; suits golden-hour and travel.",
+  "tags": [
+    "dreamy",
+    "vintage",
+    "warm"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.3
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffb36b",
+        "description": "Leak color."
+      },
+      "intensity": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Strength of the effect."
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "mirror",
+  "kind": "effect",
+  "name": "Mirror",
+  "description": "Mirrors the frame for a symmetrical look. Hypnotic; good for dance, architecture and abstract shots.",
+  "tags": [
+    "trippy",
+    "stylish"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "mode": {
+        "enum": [
+          "horizontal",
+          "vertical",
+          "quad"
+        ],
+        "default": "horizontal",
+        "description": "Axis of symmetry."
+      }
+    }
+  }
+}

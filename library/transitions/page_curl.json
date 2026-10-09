@@ -1,0 +1,32 @@
+{
+  "id": "page_curl",
+  "kind": "transition",
+  "name": "Page curl",
+  "description": "The previous clip curls away like a turning page. Storybook feel; suits recaps, diaries and tutorials.",
+  "tags": [
+    "classic",
+    "storytelling"
+  ],
+  "duration": {
+    "default": 0.7,
+    "min": 0.3,
+    "max": 1.5
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "left",
+        "description": "Direction the page turns."
+      }
+    }
+  }
+}

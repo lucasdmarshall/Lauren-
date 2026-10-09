@@ -1,0 +1,27 @@
+{
+  "id": "pixelate",
+  "kind": "effect",
+  "name": "Pixelate",
+  "description": "Breaks the image into large pixels. Retro gaming look, or a way to censor part of the shot.",
+  "tags": [
+    "retro",
+    "gaming"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "block": {
+        "type": "integer",
+        "minimum": 2,
+        "maximum": 200,
+        "default": 16,
+        "description": "Pixel size in output pixels."
+      }
+    }
+  }
+}

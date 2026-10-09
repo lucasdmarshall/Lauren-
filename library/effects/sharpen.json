@@ -1,0 +1,27 @@
+{
+  "id": "sharpen",
+  "kind": "effect",
+  "name": "Sharpen",
+  "description": "Increases edge detail. Rescues slightly soft phone footage.",
+  "tags": [
+    "subtle",
+    "fix"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.3,
+        "description": "Sharpening strength."
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "swirl",
+  "kind": "transition",
+  "name": "Swirl",
+  "description": "The previous clip twists into a vortex and unwinds into the next. Trippy and surreal; good for dream sequences.",
+  "tags": [
+    "trippy",
+    "surreal"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.2,
+    "max": 1.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "strength": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.7,
+        "description": "Amount of twist."
+      },
+      "x": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Horizontal center (0 = left, 1 = right)."
+      },
+      "y": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Vertical center (0 = top, 1 = bottom)."
+      }
+    }
+  }
+}

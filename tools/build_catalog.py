@@ -20,6 +20,8 @@ def build_catalog(library):
                 entry["duration"] = item["duration"]
             if item.get("overlap"):
                 entry["overlap"] = True
+            if kind == "animation":
+                entry["slots"] = item.get("slots", ["in", "out"])
             params = item["params_schema"].get("properties", {})
             if params:
                 entry["params"] = params

@@ -1,0 +1,35 @@
+{
+  "id": "vignette",
+  "kind": "effect",
+  "name": "Vignette",
+  "description": "Darkens the edges of the frame to focus attention on the center. Subtle and cinematic.",
+  "tags": [
+    "cinematic",
+    "subtle",
+    "focus"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "How dark the edges get."
+      },
+      "softness": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.6,
+        "description": "How gradual the falloff is."
+      }
+    }
+  }
+}

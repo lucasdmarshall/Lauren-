@@ -1,0 +1,29 @@
+{
+  "id": "stutter",
+  "kind": "transition",
+  "name": "Stutter",
+  "description": "The last frames of the previous clip repeat rapidly, like a skipping record, then cut. Trendy beat-driven effect; perfect on rhythmic music.",
+  "tags": [
+    "trendy",
+    "music",
+    "rhythmic"
+  ],
+  "duration": {
+    "default": 0.3,
+    "min": 0.1,
+    "max": 0.8
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "repeats": {
+        "type": "integer",
+        "minimum": 2,
+        "maximum": 8,
+        "default": 3,
+        "description": "How many times the frames repeat."
+      }
+    }
+  }
+}

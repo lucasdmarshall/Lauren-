@@ -1,0 +1,34 @@
+{
+  "id": "letterbox",
+  "kind": "effect",
+  "name": "Cinematic bars",
+  "description": "Black bars top and bottom for a widescreen movie look. Signals a dramatic or cinematic moment.",
+  "tags": [
+    "cinematic",
+    "dramatic"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.3
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "ratio": {
+        "enum": [
+          "2.39:1",
+          "2:1",
+          "1.85:1"
+        ],
+        "default": "2.39:1",
+        "description": "Aspect ratio of the visible area."
+      },
+      "animate": {
+        "type": "boolean",
+        "default": true,
+        "description": "Slide the bars in and out."
+      }
+    }
+  }
+}

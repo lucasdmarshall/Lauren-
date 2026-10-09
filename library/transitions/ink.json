@@ -1,0 +1,36 @@
+{
+  "id": "ink",
+  "kind": "transition",
+  "name": "Ink bleed",
+  "description": "The next clip spreads in like ink soaking into paper. Artistic and soft; suits art, food and lifestyle content.",
+  "tags": [
+    "artistic",
+    "smooth"
+  ],
+  "duration": {
+    "default": 0.8,
+    "min": 0.3,
+    "max": 2
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "x": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Horizontal center (0 = left, 1 = right)."
+      },
+      "y": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Vertical center (0 = top, 1 = bottom)."
+      }
+    }
+  }
+}

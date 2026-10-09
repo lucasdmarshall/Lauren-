@@ -1,0 +1,32 @@
+{
+  "id": "rise",
+  "kind": "animation",
+  "name": "Rise",
+  "description": "Moves up a short distance while fading in. Subtle and elegant; works with anything.",
+  "tags": [
+    "subtle",
+    "elegant"
+  ],
+  "duration": {
+    "default": 0.4,
+    "min": 0.1,
+    "max": 1.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "distance": {
+        "type": "number",
+        "minimum": 0.01,
+        "maximum": 0.3,
+        "default": 0.05,
+        "description": "Distance as a fraction of frame height."
+      }
+    }
+  }
+}

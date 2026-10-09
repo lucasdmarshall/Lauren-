@@ -1,0 +1,36 @@
+{
+  "id": "roll",
+  "kind": "transition",
+  "name": "Camera roll",
+  "description": "The frame tilts and rolls 90 degrees through the cut, like the camera turning on its side. Playful and dynamic; good on beat drops.",
+  "tags": [
+    "energetic",
+    "playful"
+  ],
+  "duration": {
+    "default": 0.3,
+    "min": 0.15,
+    "max": 0.7
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "rotation": {
+        "enum": [
+          "clockwise",
+          "counterclockwise"
+        ],
+        "default": "clockwise",
+        "description": "Roll direction."
+      },
+      "blur": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.6,
+        "description": "Amount of motion blur."
+      }
+    }
+  }
+}

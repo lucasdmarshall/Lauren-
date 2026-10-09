@@ -1,0 +1,40 @@
+{
+  "id": "spin_in",
+  "kind": "animation",
+  "name": "Spin in",
+  "description": "Rotates while scaling up into place. Lively and fun.",
+  "tags": [
+    "playful",
+    "energetic"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.15,
+    "max": 1.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "turns": {
+        "type": "number",
+        "minimum": 0.25,
+        "maximum": 4,
+        "default": 1,
+        "description": "Number of turns."
+      },
+      "rotation": {
+        "enum": [
+          "clockwise",
+          "counterclockwise"
+        ],
+        "default": "clockwise",
+        "description": "Spin direction."
+      }
+    }
+  }
+}

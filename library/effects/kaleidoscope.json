@@ -1,0 +1,32 @@
+{
+  "id": "kaleidoscope",
+  "kind": "effect",
+  "name": "Kaleidoscope",
+  "description": "Repeats wedges of the frame around the center. Psychedelic; for music drops and festival vibes.",
+  "tags": [
+    "trippy",
+    "music"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "segments": {
+        "type": "integer",
+        "minimum": 3,
+        "maximum": 16,
+        "default": 6,
+        "description": "Number of segments."
+      },
+      "rotate": {
+        "type": "boolean",
+        "default": true,
+        "description": "Slowly rotate the pattern."
+      }
+    }
+  }
+}

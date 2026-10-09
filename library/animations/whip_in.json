@@ -1,0 +1,35 @@
+{
+  "id": "whip_in",
+  "kind": "animation",
+  "name": "Whip in",
+  "description": "Shoots in from off-screen with motion blur and a slight overshoot. Fast and punchy.",
+  "tags": [
+    "energetic",
+    "fast"
+  ],
+  "duration": {
+    "default": 0.3,
+    "min": 0.1,
+    "max": 1
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "left",
+        "description": "Direction of travel."
+      }
+    }
+  }
+}

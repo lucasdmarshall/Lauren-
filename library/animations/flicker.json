@@ -1,0 +1,34 @@
+{
+  "id": "flicker",
+  "kind": "animation",
+  "name": "Neon flicker",
+  "description": "Flickers on like a neon sign warming up. In 'loop' it keeps flickering occasionally.",
+  "tags": [
+    "retro",
+    "night",
+    "stylish"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.15,
+    "max": 2
+  },
+  "slots": [
+    "in",
+    "out",
+    "loop"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "flickers": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "default": 3,
+        "description": "Number of flickers."
+      }
+    }
+  }
+}

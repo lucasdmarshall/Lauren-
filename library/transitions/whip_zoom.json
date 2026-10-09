@@ -1,0 +1,39 @@
+{
+  "id": "whip_zoom",
+  "kind": "transition",
+  "name": "Whip zoom",
+  "description": "Combines a whip pan and a punch-in zoom with heavy motion blur. The signature high-energy TikTok transition for fast montages.",
+  "tags": [
+    "energetic",
+    "trendy",
+    "fast"
+  ],
+  "duration": {
+    "default": 0.3,
+    "min": 0.12,
+    "max": 0.6
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "left",
+        "description": "Direction of the whip."
+      },
+      "blur": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.8,
+        "description": "Amount of motion blur."
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "rubber",
+  "kind": "animation",
+  "name": "Squash & stretch",
+  "description": "Stretches as it moves in, then squashes into place. Cartoon physics; great for comedy.",
+  "tags": [
+    "comedic",
+    "playful"
+  ],
+  "duration": {
+    "default": 0.45,
+    "min": 0.15,
+    "max": 1.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "up",
+        "description": "Direction of travel."
+      }
+    }
+  }
+}

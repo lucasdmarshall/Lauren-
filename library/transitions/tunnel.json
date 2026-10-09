@@ -1,0 +1,43 @@
+{
+  "id": "tunnel",
+  "kind": "transition",
+  "name": "Tunnel zoom",
+  "description": "Radial zoom blur that sucks into the center and bursts out into the next clip, like hyperspeed. Extreme energy for drops and reveals.",
+  "tags": [
+    "energetic",
+    "wild",
+    "reveal"
+  ],
+  "duration": {
+    "default": 0.35,
+    "min": 0.15,
+    "max": 0.8
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "strength": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.7,
+        "description": "Amount of radial blur."
+      },
+      "x": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Horizontal center (0 = left, 1 = right)."
+      },
+      "y": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Vertical center (0 = top, 1 = bottom)."
+      }
+    }
+  }
+}

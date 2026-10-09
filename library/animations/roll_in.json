@@ -1,0 +1,34 @@
+{
+  "id": "roll_in",
+  "kind": "animation",
+  "name": "Roll in",
+  "description": "Rolls in from the side like a wheel.",
+  "tags": [
+    "playful"
+  ],
+  "duration": {
+    "default": 0.6,
+    "min": 0.2,
+    "max": 2
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "default": "right",
+        "description": "Direction of travel."
+      }
+    }
+  }
+}

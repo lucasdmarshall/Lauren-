@@ -1,0 +1,27 @@
+{
+  "id": "high_contrast",
+  "kind": "effect",
+  "name": "High contrast",
+  "description": "Punchy contrast and saturation. Makes footage pop on small phone screens; good for sports and product shots.",
+  "tags": [
+    "bold",
+    "color"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Contrast boost."
+      }
+    }
+  }
+}

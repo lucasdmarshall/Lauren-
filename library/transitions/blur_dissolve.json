@@ -1,0 +1,30 @@
+{
+  "id": "blur_dissolve",
+  "kind": "transition",
+  "name": "Blur dissolve",
+  "description": "Both clips blur heavily while crossfading. Soft and dreamy; good for memories, transitions in mood or slow music.",
+  "tags": [
+    "smooth",
+    "dreamy",
+    "calm"
+  ],
+  "duration": {
+    "default": 0.6,
+    "min": 0.2,
+    "max": 2
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "blur": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.7,
+        "description": "Peak blur amount."
+      }
+    }
+  }
+}

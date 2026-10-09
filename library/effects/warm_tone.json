@@ -1,0 +1,28 @@
+{
+  "id": "warm_tone",
+  "kind": "effect",
+  "name": "Warm tone",
+  "description": "Shifts color toward golden and orange. Cozy, happy and summery.",
+  "tags": [
+    "warm",
+    "color",
+    "subtle"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Warmth."
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "zoom_in",
+  "kind": "animation",
+  "name": "Zoom in",
+  "description": "Starts oversized and transparent, then shrinks into place. Feels like it lands on the screen.",
+  "tags": [
+    "dynamic",
+    "bold"
+  ],
+  "duration": {
+    "default": 0.35,
+    "min": 0.1,
+    "max": 1.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "from_scale": {
+        "type": "number",
+        "minimum": 1.2,
+        "maximum": 6,
+        "default": 2.5,
+        "description": "Starting size relative to final size."
+      }
+    }
+  }
+}

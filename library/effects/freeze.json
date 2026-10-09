@@ -1,0 +1,26 @@
+{
+  "id": "freeze",
+  "kind": "effect",
+  "name": "Freeze frame",
+  "description": "Holds the frame at the effect's start for its duration; the clip continues after. Timeline length is unchanged. Great for 'that's me' moments and comic timing.",
+  "tags": [
+    "comedic",
+    "emphasis"
+  ],
+  "duration": {
+    "default": 0.8,
+    "min": 0.1,
+    "max": 5
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "flash": {
+        "type": "boolean",
+        "default": true,
+        "description": "Flash briefly when the freeze starts."
+      }
+    }
+  }
+}

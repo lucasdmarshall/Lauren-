@@ -1,0 +1,42 @@
+{
+  "id": "vhs",
+  "kind": "effect",
+  "name": "VHS",
+  "description": "Analog tape look: noise, scanlines, color bleed and slight wobble. Nostalgic and retro; suits throwbacks and lo-fi edits.",
+  "tags": [
+    "retro",
+    "vintage",
+    "lo-fi"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "noise": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Tape noise."
+      },
+      "scanlines": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Scanline visibility."
+      },
+      "wobble": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.3,
+        "description": "Horizontal tracking wobble."
+      }
+    }
+  }
+}

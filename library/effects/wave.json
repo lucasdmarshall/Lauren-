@@ -1,0 +1,34 @@
+{
+  "id": "wave",
+  "kind": "effect",
+  "name": "Wave distortion",
+  "description": "Makes the image ripple in waves. Heat-haze, underwater or dizzy feeling.",
+  "tags": [
+    "trippy",
+    "liquid"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amplitude": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.3,
+        "description": "Wave height."
+      },
+      "frequency": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 20,
+        "default": 4,
+        "description": "Waves across the frame."
+      }
+    }
+  }
+}

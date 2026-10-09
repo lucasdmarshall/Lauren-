@@ -1,0 +1,55 @@
+{
+  "id": "shape_reveal",
+  "kind": "transition",
+  "name": "Shape reveal",
+  "description": "The next clip appears inside a growing shape. Hearts suit love and lifestyle, stars suit celebrations.",
+  "tags": [
+    "playful",
+    "reveal",
+    "cute"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.2,
+    "max": 1.5
+  },
+  "overlap": true,
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "shape": {
+        "enum": [
+          "circle",
+          "heart",
+          "star",
+          "diamond",
+          "square"
+        ],
+        "default": "heart",
+        "description": "Shape of the mask."
+      },
+      "x": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Horizontal center (0 = left, 1 = right)."
+      },
+      "y": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Vertical center (0 = top, 1 = bottom)."
+      },
+      "rotation": {
+        "type": "number",
+        "minimum": -180,
+        "maximum": 180,
+        "default": 0,
+        "description": "Rotation of the shape in degrees."
+      }
+    }
+  }
+}

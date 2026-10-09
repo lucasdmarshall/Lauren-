@@ -1,0 +1,41 @@
+{
+  "id": "radial_blur",
+  "kind": "effect",
+  "name": "Zoom blur",
+  "description": "Blur radiating from a point, as if rushing toward it. Speed and focus on a subject.",
+  "tags": [
+    "energetic",
+    "focus"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.05
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "strength": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Blur strength."
+      },
+      "x": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Horizontal center (0 = left, 1 = right)."
+      },
+      "y": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Vertical center (0 = top, 1 = bottom)."
+      }
+    }
+  }
+}

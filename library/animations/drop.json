@@ -1,0 +1,32 @@
+{
+  "id": "drop",
+  "kind": "animation",
+  "name": "Drop",
+  "description": "Falls from above with gravity and a small squash on landing.",
+  "tags": [
+    "playful",
+    "comedic"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.2,
+    "max": 1.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "squash": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Squash on landing."
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "dip",
+  "kind": "transition",
+  "name": "Dip to color",
+  "description": "Fades out to a solid color, then into the next clip. Marks a clear change of scene, time or chapter. Black feels serious; white feels dreamy or like a memory.",
+  "tags": [
+    "calm",
+    "chapter",
+    "cinematic"
+  ],
+  "duration": {
+    "default": 0.6,
+    "min": 0.2,
+    "max": 2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#000000",
+        "description": "Color to dip through."
+      }
+    }
+  }
+}

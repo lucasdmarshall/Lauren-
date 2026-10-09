@@ -1,0 +1,34 @@
+{
+  "id": "glow",
+  "kind": "effect",
+  "name": "Glow",
+  "description": "Bright areas bloom with a soft glow. Dreamy and glamorous; suits night lights, beauty and concerts.",
+  "tags": [
+    "dreamy",
+    "glam"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "strength": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Glow strength."
+      },
+      "threshold": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.7,
+        "description": "Brightness above which areas glow."
+      }
+    }
+  }
+}

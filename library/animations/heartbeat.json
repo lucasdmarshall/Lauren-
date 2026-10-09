@@ -1,0 +1,31 @@
+{
+  "id": "heartbeat",
+  "kind": "animation",
+  "name": "Heartbeat",
+  "description": "Double-beat pulse like a heart. Made for hearts, likes and love stickers.",
+  "tags": [
+    "cute",
+    "emotional"
+  ],
+  "duration": {
+    "default": 0.9,
+    "min": 0.4,
+    "max": 3
+  },
+  "slots": [
+    "loop"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.3,
+        "default": 0.12,
+        "description": "Size change per beat."
+      }
+    }
+  }
+}

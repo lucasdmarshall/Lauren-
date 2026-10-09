@@ -1,0 +1,28 @@
+{
+  "id": "lens_distortion",
+  "kind": "effect",
+  "name": "Fisheye",
+  "description": "Bulges the image like a fisheye lens. Skate-video and comedic close-up look.",
+  "tags": [
+    "comedic",
+    "skate",
+    "playful"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": -1,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Positive bulges out, negative pinches in."
+      }
+    }
+  }
+}

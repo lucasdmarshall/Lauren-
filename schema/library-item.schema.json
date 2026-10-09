@@ -5,29 +5,63 @@
   "description": "Manifest for one effect, transition or animation. The AI receives a catalog built from these manifests and picks items by id; nothing about individual items is hardcoded in the edit plan schema or the app.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "kind", "name", "description", "params_schema"],
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "description",
+    "params_schema"
+  ],
   "properties": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$" },
-    "kind": { "enum": ["effect", "transition", "animation"] },
-    "version": { "type": "string", "default": "1.0.0" },
-    "name": { "type": "string", "description": "Display name in the UI." },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "kind": {
+      "enum": [
+        "effect",
+        "transition",
+        "animation"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "default": "1.0.0"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name in the UI."
+    },
     "description": {
       "type": "string",
       "description": "What it looks like and when to use it. Written for the AI: this is how it chooses."
     },
     "tags": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Mood and style hints, e.g. energetic, smooth, comedic, cinematic."
     },
     "duration": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["default"],
+      "required": [
+        "default"
+      ],
       "properties": {
-        "default": { "type": "number", "minimum": 0 },
-        "min": { "type": "number", "minimum": 0 },
-        "max": { "type": "number", "minimum": 0 }
+        "default": {
+          "type": "number",
+          "minimum": 0
+        },
+        "min": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0
+        }
       }
     },
     "overlap": {
@@ -42,6 +76,23 @@
     "render": {
       "type": "object",
       "description": "How the engine draws the item. Format not decided yet (see docs/LIBRARY.md)."
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "in",
+          "out",
+          "loop"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "default": [
+        "in",
+        "out"
+      ],
+      "description": "Animations only: which overlay slots the item can fill. 'in' plays as written; 'out' plays it in reverse; 'loop' repeats while the overlay is visible, with 'duration' as one cycle."
     }
   }
 }

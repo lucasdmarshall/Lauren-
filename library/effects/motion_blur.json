@@ -1,0 +1,27 @@
+{
+  "id": "motion_blur",
+  "kind": "effect",
+  "name": "Motion blur",
+  "description": "Adds blur along the direction of movement. Makes fast action and sped-up clips feel smoother and faster.",
+  "tags": [
+    "dynamic",
+    "smooth"
+  ],
+  "duration": {
+    "default": 1,
+    "min": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.5,
+        "description": "Blur length."
+      }
+    }
+  }
+}

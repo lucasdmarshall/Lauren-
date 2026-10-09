@@ -1,0 +1,27 @@
+{
+  "id": "teal_orange",
+  "kind": "effect",
+  "name": "Teal & orange",
+  "description": "Blockbuster color grade: teal shadows, warm skin tones. Instantly cinematic for travel, action and city footage.",
+  "tags": [
+    "cinematic",
+    "color"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.6,
+        "description": "Grade strength."
+      }
+    }
+  }
+}

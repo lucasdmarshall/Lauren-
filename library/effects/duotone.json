@@ -1,0 +1,33 @@
+{
+  "id": "duotone",
+  "kind": "effect",
+  "name": "Duotone",
+  "description": "Maps the image to two colors. Graphic, bold and on-brand; good for intros and stylised moments.",
+  "tags": [
+    "graphic",
+    "bold",
+    "color"
+  ],
+  "duration": {
+    "default": 2,
+    "min": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "shadow": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#1a1446",
+        "description": "Color for dark areas."
+      },
+      "highlight": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ff4fa3",
+        "description": "Color for bright areas."
+      }
+    }
+  }
+}
