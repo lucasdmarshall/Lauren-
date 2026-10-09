@@ -162,7 +162,7 @@
         "duration": 0.2,
         "beat_sync": true
       },
-      "note": "Celebration, used in full."
+      "note": "Celebration, used in full. Keeps its own audio for the shout."
     }
   ],
   "overlays": [
@@ -185,6 +185,63 @@
         "duration": 0.6
       },
       "note": "Highlights the landing."
+    }
+  ],
+  "texts": [
+    {
+      "id": "t1",
+      "text": "wait for the landing",
+      "start": 0.2,
+      "duration": 2.0,
+      "style": {
+        "ref": "tiktok_classic"
+      },
+      "y": 0.18,
+      "animation_in": {
+        "ref": "word_by_word"
+      },
+      "animation_out": {
+        "ref": "fade"
+      },
+      "note": "Hook in the first second to keep viewers watching."
+    }
+  ],
+  "captions": [
+    {
+      "id": "cap1",
+      "clip": "c4",
+      "style": {
+        "ref": "bold_caption"
+      },
+      "max_words": 2,
+      "y": 0.72,
+      "words": [
+        {
+          "text": "LET'S",
+          "at": 0.3,
+          "end": 0.6
+        },
+        {
+          "text": "GOOO",
+          "at": 0.6,
+          "end": 1.2
+        },
+        {
+          "text": "first",
+          "at": 1.5,
+          "end": 1.75
+        },
+        {
+          "text": "try!",
+          "at": 1.75,
+          "end": 2.2
+        }
+      ],
+      "animation_in": {
+        "ref": "pop",
+        "duration": 0.15
+      },
+      "note": "Celebration shout, captioned word by word."
     }
   ],
   "audio": [

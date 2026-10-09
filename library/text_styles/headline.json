@@ -1,0 +1,39 @@
+{
+  "id": "headline",
+  "kind": "text_style",
+  "name": "Headline",
+  "description": "Tall condensed uppercase letters. Strong titles, intros and chapter cards.",
+  "tags": [
+    "bold",
+    "title",
+    "cinematic"
+  ],
+  "style": {
+    "font": "Bebas Neue",
+    "weight": 400,
+    "size": 0.1,
+    "color": "#ffffff",
+    "uppercase": true,
+    "letter_spacing": 0.04,
+    "shadow": 0.4
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.1,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "comic",
+  "kind": "text_style",
+  "name": "Comic",
+  "description": "Chunky comic-book lettering, yellow with a black outline. Sound effects and exclamations: BOOM, WAIT, NO WAY.",
+  "tags": [
+    "comedic",
+    "playful",
+    "impact"
+  ],
+  "style": {
+    "font": "Bangers",
+    "weight": 400,
+    "size": 0.09,
+    "color": "#ffd400",
+    "uppercase": true,
+    "stroke_color": "#000000",
+    "stroke_width": 0.14,
+    "shadow": 0.6,
+    "letter_spacing": 0.03
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffd400",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.09,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

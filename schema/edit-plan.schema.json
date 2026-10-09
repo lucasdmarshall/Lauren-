@@ -44,6 +44,20 @@
         "$ref": "#/$defs/overlay"
       }
     },
+    "texts": {
+      "type": "array",
+      "description": "Text placed on the video: titles, hooks, labels, calls to action.",
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "captions": {
+      "type": "array",
+      "description": "Spoken words shown in sync with a clip's audio. Each entry is one caption track for one clip.",
+      "items": {
+        "$ref": "#/$defs/caption"
+      }
+    },
     "audio": {
       "type": "array",
       "description": "Music and other audio placed under the main track.",
@@ -621,6 +635,180 @@
         },
         "params": {
           "$ref": "#/$defs/params"
+        }
+      }
+    },
+    "style_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref"
+      ],
+      "description": "A text style from library/text_styles.",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "params": {
+          "$ref": "#/$defs/params"
+        }
+      }
+    },
+    "text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "text",
+        "duration",
+        "style"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "description": "The text. Use \\n for a line break."
+        },
+        "start": {
+          "$ref": "#/$defs/seconds",
+          "description": "Timeline time. Use either 'start' or 'anchor'."
+        },
+        "anchor": {
+          "$ref": "#/$defs/anchor",
+          "description": "Start at a moment in a clip. Use either 'start' or 'anchor'."
+        },
+        "duration": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Timeline seconds."
+        },
+        "style": {
+          "$ref": "#/$defs/style_ref"
+        },
+        "x": {
+          "$ref": "#/$defs/unit",
+          "default": 0.5
+        },
+        "y": {
+          "$ref": "#/$defs/unit",
+          "default": 0.5
+        },
+        "max_width": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 1,
+          "default": 0.85,
+          "description": "Wrap width as a fraction of the output width."
+        },
+        "align": {
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "default": "center"
+        },
+        "rotation": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360,
+          "default": 0
+        },
+        "animation_in": {
+          "$ref": "#/$defs/animation",
+          "description": "Omit for no animation."
+        },
+        "animation_out": {
+          "$ref": "#/$defs/animation",
+          "description": "Omit for no animation."
+        },
+        "animation_loop": {
+          "$ref": "#/$defs/animation",
+          "description": "Repeats while the overlay is visible, between its in and out animations. Omit for none."
+        },
+        "note": {
+          "$ref": "#/$defs/note"
+        }
+      }
+    },
+    "word": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "at",
+        "end"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "at": {
+          "$ref": "#/$defs/source_time",
+          "description": "When the word starts being spoken."
+        },
+        "end": {
+          "$ref": "#/$defs/source_time",
+          "description": "When the word ends."
+        }
+      }
+    },
+    "caption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "clip",
+        "words",
+        "style"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "clip": {
+          "$ref": "#/$defs/id",
+          "description": "The clip whose audio is captioned. Word times are source times in that clip, so captions follow speed changes and trims; words outside the clip's in/out are not shown."
+        },
+        "words": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/word"
+          },
+          "description": "Words in spoken order, from the transcript."
+        },
+        "style": {
+          "$ref": "#/$defs/style_ref"
+        },
+        "max_words": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "default": 3,
+          "description": "Most words shown at once. Fewer reads faster and feels more energetic."
+        },
+        "y": {
+          "$ref": "#/$defs/unit",
+          "default": 0.72
+        },
+        "max_width": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 1,
+          "default": 0.85
+        },
+        "animation_in": {
+          "$ref": "#/$defs/animation",
+          "description": "Plays each time a new group of words appears."
+        },
+        "note": {
+          "$ref": "#/$defs/note"
         }
       }
     }

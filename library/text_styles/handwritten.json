@@ -1,0 +1,37 @@
+{
+  "id": "handwritten",
+  "kind": "text_style",
+  "name": "Handwritten",
+  "description": "Marker-style handwriting. Personal, casual and fun; notes, arrows and diary-style vlogs.",
+  "tags": [
+    "casual",
+    "personal",
+    "playful"
+  ],
+  "style": {
+    "font": "Permanent Marker",
+    "weight": 400,
+    "size": 0.055,
+    "color": "#ffffff",
+    "shadow": 0.5
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.055,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

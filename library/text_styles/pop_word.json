@@ -1,0 +1,39 @@
+{
+  "id": "pop_word",
+  "kind": "text_style",
+  "name": "Pop word",
+  "description": "Captions where the spoken word grows slightly and changes color. Playful; suits vlogs and comedy.",
+  "tags": [
+    "captions",
+    "playful"
+  ],
+  "style": {
+    "font": "Poppins",
+    "weight": 800,
+    "size": 0.055,
+    "color": "#ffffff",
+    "stroke_color": "#000000",
+    "stroke_width": 0.1,
+    "highlight_color": "#4dff88",
+    "highlight_mode": "scale"
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "highlight_color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#4dff88",
+        "description": "Color marking the word being spoken (captions)."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.055,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "label",
+  "kind": "text_style",
+  "name": "Label",
+  "description": "Small uppercase text on a solid colored tag. Names, places, prices and product callouts.",
+  "tags": [
+    "clean",
+    "info"
+  ],
+  "style": {
+    "font": "Montserrat",
+    "weight": 800,
+    "size": 0.03,
+    "color": "#ffffff",
+    "uppercase": true,
+    "letter_spacing": 0.08,
+    "background_color": "#ff3b5c",
+    "background_opacity": 1,
+    "background_radius": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "background_color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ff3b5c",
+        "description": "Tag color."
+      },
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.03,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

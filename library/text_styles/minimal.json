@@ -1,0 +1,37 @@
+{
+  "id": "minimal",
+  "kind": "text_style",
+  "name": "Minimal",
+  "description": "Medium-weight white text with a soft shadow, no outline. Calm and premium; suits aesthetic, travel and lifestyle edits.",
+  "tags": [
+    "clean",
+    "aesthetic",
+    "subtle"
+  ],
+  "style": {
+    "font": "Inter",
+    "weight": 500,
+    "size": 0.04,
+    "color": "#ffffff",
+    "shadow": 0.6
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.04,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

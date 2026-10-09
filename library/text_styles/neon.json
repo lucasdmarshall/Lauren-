@@ -1,0 +1,39 @@
+{
+  "id": "neon",
+  "kind": "text_style",
+  "name": "Neon",
+  "description": "Glowing neon-sign text. Night scenes, parties, gaming and music.",
+  "tags": [
+    "night",
+    "music",
+    "glow"
+  ],
+  "style": {
+    "font": "Bebas Neue",
+    "weight": 400,
+    "size": 0.08,
+    "color": "#ffffff",
+    "glow_color": "#ff2bd6",
+    "glow": 0.8,
+    "letter_spacing": 0.06
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "glow_color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ff2bd6",
+        "description": "Glow color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.08,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

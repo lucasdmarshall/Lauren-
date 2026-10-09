@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://lauren.app/schema/library-item/0.1.json",
   "title": "Lauren Library Item",
-  "description": "Manifest for one effect, transition, animation or speed ramp preset. The AI receives a catalog built from these manifests and picks items by id; nothing about individual items is hardcoded in the edit plan schema or the app.",
+  "description": "Manifest for one library item: effect, transition, animation, speed ramp preset or text style. The AI receives a catalog built from these manifests and picks items by id; nothing about individual items is hardcoded in the edit plan schema or the app.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -22,7 +22,8 @@
         "effect",
         "transition",
         "animation",
-        "ramp"
+        "ramp",
+        "text_style"
       ]
     },
     "version": {
@@ -129,6 +130,131 @@
           }
         }
       }
+    },
+    "applies_to": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "image",
+          "text"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "default": [
+        "image",
+        "text"
+      ],
+      "description": "Animations only: whether the item works on image/sticker overlays, on text, or both."
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Text styles only: how text is drawn. The item's params override these keys, so every param name must be a style key.",
+      "required": [
+        "font",
+        "size",
+        "color"
+      ],
+      "properties": {
+        "font": {
+          "type": "string",
+          "description": "Font family name. Fonts are bundled with the app (open-licensed)."
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 900,
+          "default": 700
+        },
+        "size": {
+          "type": "number",
+          "minimum": 0.015,
+          "maximum": 0.25,
+          "description": "Cap height as a fraction of the output's shorter side."
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "uppercase": {
+          "type": "boolean",
+          "default": false
+        },
+        "letter_spacing": {
+          "type": "number",
+          "minimum": -0.1,
+          "maximum": 0.5,
+          "default": 0,
+          "description": "Extra spacing as a fraction of the font size."
+        },
+        "line_height": {
+          "type": "number",
+          "minimum": 0.8,
+          "maximum": 2,
+          "default": 1.15
+        },
+        "stroke_color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "stroke_width": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.3,
+          "default": 0,
+          "description": "Outline width as a fraction of the font size."
+        },
+        "shadow": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0,
+          "description": "Drop shadow strength."
+        },
+        "glow_color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "glow": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0,
+          "description": "Glow strength."
+        },
+        "background_color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "background_opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0
+        },
+        "background_radius": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.3,
+          "description": "Corner radius as a fraction of the line height."
+        },
+        "highlight_color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "highlight_mode": {
+          "enum": [
+            "none",
+            "color",
+            "box",
+            "scale"
+          ],
+          "default": "none",
+          "description": "Captions only: how the word being spoken is marked."
+        }
+      }
     }
   },
   "allOf": [
@@ -149,6 +275,27 @@
         "not": {
           "required": [
             "points"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "text_style"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "style"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "style"
           ]
         }
       }

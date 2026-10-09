@@ -1,0 +1,45 @@
+{
+  "id": "tiktok_box",
+  "kind": "text_style",
+  "name": "TikTok box",
+  "description": "Dark text on a white rounded box, like TikTok's background text. Very readable over busy footage; feels native and friendly.",
+  "tags": [
+    "native",
+    "readable",
+    "clean"
+  ],
+  "style": {
+    "font": "Montserrat",
+    "weight": 700,
+    "size": 0.045,
+    "color": "#111111",
+    "background_color": "#ffffff",
+    "background_opacity": 1,
+    "background_radius": 0.35
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#111111",
+        "description": "Text color."
+      },
+      "background_color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Box color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.045,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

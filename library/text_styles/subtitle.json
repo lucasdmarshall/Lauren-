@@ -1,0 +1,33 @@
+{
+  "id": "subtitle",
+  "kind": "text_style",
+  "name": "Subtitle",
+  "description": "Plain subtitles on a semi-transparent dark box. Neutral and accessible; for interviews, tutorials and longer speech.",
+  "tags": [
+    "captions",
+    "neutral",
+    "accessible"
+  ],
+  "style": {
+    "font": "Inter",
+    "weight": 600,
+    "size": 0.038,
+    "color": "#ffffff",
+    "background_color": "#000000",
+    "background_opacity": 0.6,
+    "background_radius": 0.2
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.038,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

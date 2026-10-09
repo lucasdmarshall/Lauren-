@@ -1,0 +1,45 @@
+{
+  "id": "cute",
+  "kind": "text_style",
+  "name": "Cute",
+  "description": "Rounded text on a soft pastel box. Lifestyle, pets, food and beauty.",
+  "tags": [
+    "cute",
+    "soft",
+    "lifestyle"
+  ],
+  "style": {
+    "font": "Fredoka",
+    "weight": 600,
+    "size": 0.05,
+    "color": "#5a3d5c",
+    "background_color": "#ffd6e8",
+    "background_opacity": 1,
+    "background_radius": 0.5
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#5a3d5c",
+        "description": "Text color."
+      },
+      "background_color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffd6e8",
+        "description": "Box color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.05,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "shake_text",
+  "kind": "animation",
+  "name": "Shake",
+  "description": "Text jitters as if shouting. Loop for screaming, panic or excitement.",
+  "tags": [
+    "comedic",
+    "energetic"
+  ],
+  "duration": {
+    "default": 0.3,
+    "min": 0.1,
+    "max": 2
+  },
+  "slots": [
+    "in",
+    "loop"
+  ],
+  "applies_to": [
+    "text"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "amount": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "default": 0.4,
+        "description": "Jitter strength."
+      }
+    }
+  }
+}

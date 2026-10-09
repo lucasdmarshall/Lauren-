@@ -1,0 +1,33 @@
+{
+  "id": "typewriter",
+  "kind": "animation",
+  "name": "Typewriter",
+  "description": "Letters appear one at a time as if typed. Builds anticipation; suits hooks, quotes and tech content.",
+  "tags": [
+    "tech",
+    "suspense"
+  ],
+  "duration": {
+    "default": 0.8,
+    "min": 0.2,
+    "max": 4
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "applies_to": [
+    "text"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "cursor": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show a blinking cursor while typing."
+      }
+    }
+  }
+}

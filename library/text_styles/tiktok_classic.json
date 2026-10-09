@@ -1,0 +1,39 @@
+{
+  "id": "tiktok_classic",
+  "kind": "text_style",
+  "name": "TikTok classic",
+  "description": "White bold text with a black outline. The native TikTok look; readable on any footage. Safe default for hooks and captions.",
+  "tags": [
+    "native",
+    "readable",
+    "default"
+  ],
+  "style": {
+    "font": "Montserrat",
+    "weight": 800,
+    "size": 0.055,
+    "color": "#ffffff",
+    "stroke_color": "#000000",
+    "stroke_width": 0.12,
+    "shadow": 0.3
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.055,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

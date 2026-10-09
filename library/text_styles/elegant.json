@@ -1,0 +1,38 @@
+{
+  "id": "elegant",
+  "kind": "text_style",
+  "name": "Elegant",
+  "description": "High-contrast serif in white. Fashion, weddings, luxury and quotes.",
+  "tags": [
+    "elegant",
+    "luxury",
+    "cinematic"
+  ],
+  "style": {
+    "font": "Playfair Display",
+    "weight": 600,
+    "size": 0.05,
+    "color": "#ffffff",
+    "letter_spacing": 0.02,
+    "shadow": 0.4
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.05,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

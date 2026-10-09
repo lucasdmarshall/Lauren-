@@ -1,0 +1,22 @@
+{
+  "mode": "patch",
+  "summary": "Made the warm-up shorter, swapped the zoom transition for a spin, and added a 'NO WAY' comic text on the landing.",
+  "ops": [
+    { "op": "update", "id": "c2", "set": { "out": 3.4, "note": "Warm-up trimmed so the kickflip comes sooner." } },
+    { "op": "update", "id": "c3", "set": { "transition_in": { "ref": "spin", "params": { "turns": 1 } } } },
+    {
+      "op": "add",
+      "to": "texts",
+      "item": {
+        "id": "t2",
+        "text": "NO WAY",
+        "anchor": { "clip": "c3", "at": 4.2 },
+        "duration": 1.0,
+        "style": { "ref": "comic" },
+        "y": 0.4,
+        "animation_in": { "ref": "stamp" }
+      }
+    },
+    { "op": "remove", "id": "o1" }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "scramble",
+  "kind": "animation",
+  "name": "Scramble",
+  "description": "Random characters shuffle and resolve into the text, like decoding. Tech, gaming and mystery.",
+  "tags": [
+    "tech",
+    "gaming",
+    "mystery"
+  ],
+  "duration": {
+    "default": 0.7,
+    "min": 0.2,
+    "max": 2.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "applies_to": [
+    "text"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

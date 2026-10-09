@@ -1,0 +1,33 @@
+{
+  "id": "word_by_word",
+  "kind": "animation",
+  "name": "Word by word",
+  "description": "Words appear one after another. Paces a hook so viewers read along.",
+  "tags": [
+    "energetic",
+    "readable"
+  ],
+  "duration": {
+    "default": 0.6,
+    "min": 0.15,
+    "max": 3
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "applies_to": [
+    "text"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "pop": {
+        "type": "boolean",
+        "default": true,
+        "description": "Each word pops slightly as it appears."
+      }
+    }
+  }
+}

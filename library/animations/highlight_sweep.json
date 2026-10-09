@@ -1,0 +1,34 @@
+{
+  "id": "highlight_sweep",
+  "kind": "animation",
+  "name": "Highlight sweep",
+  "description": "A marker-style highlight sweeps behind the text as it appears. Emphasizes a key phrase.",
+  "tags": [
+    "emphasis",
+    "clean"
+  ],
+  "duration": {
+    "default": 0.5,
+    "min": 0.15,
+    "max": 2
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "applies_to": [
+    "text"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffe14d",
+        "description": "Highlight color."
+      }
+    }
+  }
+}

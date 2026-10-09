@@ -1,0 +1,41 @@
+{
+  "id": "karaoke_box",
+  "kind": "text_style",
+  "name": "Karaoke box",
+  "description": "Clean captions where a colored box slides behind the word being spoken. Modern and easy to follow.",
+  "tags": [
+    "captions",
+    "modern",
+    "clean"
+  ],
+  "style": {
+    "font": "Poppins",
+    "weight": 700,
+    "size": 0.05,
+    "color": "#ffffff",
+    "stroke_color": "#000000",
+    "stroke_width": 0.06,
+    "highlight_color": "#7b5cff",
+    "highlight_mode": "box",
+    "background_radius": 0.25
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "highlight_color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#7b5cff",
+        "description": "Color marking the word being spoken (captions)."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.05,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

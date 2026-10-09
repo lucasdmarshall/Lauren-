@@ -19,6 +19,8 @@ plan
 ├── clips       main video track, played back to back
 │   └── reverse, speed / speed_ramp / speed_preset*, freezes, reframe, transform (zoom/pan keyframes), effects*, transition_in*
 ├── overlays    stickers/images, placed at a timeline time or anchored to a clip moment; animation_in/out/loop*
+├── texts       hooks, titles, labels; style* + animation_in/out/loop*, placed like overlays
+├── captions    spoken words of one clip, timed by source time; style* + animation_in*
 └── audio       music, placed like overlays; runs to the end of the edit by default
 
 * reference a library item by id: { "ref": "whip", "duration": 0.24, "params": {...} }
@@ -83,14 +85,31 @@ Reverse applies to a whole clip. Effects that change direction mid-shot are buil
 
 These patterns go into the edit-stage AI prompt as recipes.
 
-### 6. Built for many short clips
+### 6. Text and captions
+**Texts** are free text (hooks, titles, labels, calls to action), placed like overlays with `start` or `anchor` plus `duration`. Their look comes from a **text style** in the library (`library/text_styles`: font, size, colors, outline, glow, box), with params to override colors and size.
+
+**Captions** show a clip's speech in sync. Each caption entry belongs to one clip and lists the words with their source times, taken from the transcript:
+
+```json
+{ "id": "cap1", "clip": "c4", "style": { "ref": "bold_caption" }, "max_words": 2,
+  "words": [ { "text": "LET'S", "at": 0.3, "end": 0.6 }, { "text": "GOOO", "at": 0.6, "end": 1.2 } ] }
+```
+
+- Because word times are source times, captions stay in sync through trims and speed ramps. Words outside the clip's `in`/`out` are not shown (warning).
+- `max_words` sets how many words are on screen at once. The style's `highlight_mode` marks the word being spoken (color, box or scale).
+- A reversed clip cannot be captioned.
+- Text-only animations (typewriter, word_by_word, scramble, …) declare `applies_to: ["text"]` and are rejected on image overlays.
+
+Word timings come from stage 1 (the clip analysis includes a timestamped transcript of each clip with speech).
+
+### 7. Built for many short clips
 The typical input is several short clips (a few seconds each) uploaded together. The AI combines them into one edit:
 
 - It picks which clips to use, trims each one, and chooses the order. The order can differ from upload order, and an asset can be used more than once.
 - `assets` carries what the AI needs to decide: duration, width/height (orientation for reframing), `has_audio`, and `recorded_at` when the file has it.
 - Images can be clips too: `in` is 0 and `out` is how long the image is shown.
 
-### 7. Effects, transitions and animations come from the library
+### 8. Effects, transitions and animations come from the library
 The schema does not list any effect, transition or animation. Plans reference library items by id, and each item's manifest defines its parameters, duration range and behaviour. The AI picks from the catalog. See [LIBRARY.md](LIBRARY.md).
 
 `transition_in` on clip N describes the change from clip N-1. A transition never uses media outside `in`/`out`, because short clips have no spare footage:
@@ -98,14 +117,30 @@ The schema does not list any effect, transition or animation. Plans reference li
 - **`overlap: true`** in the manifest (e.g. crossfade): both clips are visible at once, so they overlap by `duration` and the timeline gets shorter by that amount.
 - **Otherwise** (e.g. whip, zoom, flash): applied to the last half of clip N-1 and the first half of clip N. The timeline length does not change.
 
-### 8. Every item has an id and a note
+### 9. Every item has an id and a note
 Ids (`c2`, `o1`, `a1`) let follow-up prompts and the timeline target specific items ("make c2 shorter"). `note` records why the AI made the choice; the UI shows it and it goes back to the AI on the next prompt.
 
-### 9. The AI never writes file paths
+### 10. The AI never writes file paths
 The app builds `assets` (id, kind, duration, label) and sends it to the AI. The AI references ids only. `src` is filled by the app.
 
-### 10. Keep the schema simple for structured output
+### 11. Keep the schema simple for structured output
 Flat objects with a `type` enum, no deep `oneOf` unions. This keeps the schema within what Gemini's structured output mode supports, and keeps invalid plans rare.
+
+## Follow-up prompts: patches
+
+Schema: [`schema/edit-response.schema.json`](../schema/edit-response.schema.json). Applied by `tools/apply_patch.py`; example: [`examples/followup-patch.json`](../examples/followup-patch.json).
+
+The edit-stage AI answers every prompt with `{ "mode", "summary", ... }`:
+
+- **`"mode": "patch"`** (default for follow-ups): a list of `ops` addressed by item id.
+  - `add` an item to `clips`, `overlays`, `texts`, `captions` or `audio`, optionally `after` an id (`null` = first).
+  - `update` an item (or `"output"`) with `set`, a JSON merge patch: objects merge, arrays are replaced, `null` deletes a field. A library reference with a different `ref` replaces the old one whole, so a new transition does not inherit the old one's params.
+  - `remove` an item, or `move` it within its collection.
+- **`"mode": "full"`**: a complete new plan. Used for the first edit, and for follow-ups that rebuild most of the edit ("make it completely different"), where listing ops would be longer than the plan.
+
+Why patches by default: output tokens cost more than input tokens, and a patch for "make c2 shorter" is a few dozen tokens where the full plan is thousands. Patches also cannot accidentally change items the user did not ask about.
+
+Ids keep patches robust: ops never use array positions. Assets cannot be changed by the AI. After applying, the whole plan is validated again; an invalid result is rejected and the previous plan is kept.
 
 ## Rules the schema cannot express
 
@@ -120,14 +155,14 @@ Flat objects with a `type` enum, no deep `oneOf` unions. This keeps the schema w
 - Overlays use exactly one of `start` or `anchor`; anchors point to an existing clip.
 - Effects end before their clip ends; overlays and audio end before the timeline ends (all computed with speed ramps, freezes and overlapping transitions).
 - A transition is no longer than either neighbouring clip.
+- Text styles exist; animations are allowed on their target (`applies_to`); caption clips exist and are not reversed; caption words are in order and inside the clip (warning for words outside).
 - Warning (not an error): a music track shorter than its slot, unless `loop` is set.
 
 ## Not in v0.1
 
-Text and captions, color grading, multiple video tracks (picture-in-picture), keyframed audio volume, custom fonts.
+Color grading beyond the library looks, multiple video tracks (picture-in-picture), keyframed audio volume, custom fonts.
 
 ## Open questions
 
-- **Follow-up prompts:** the AI returns a full new plan (simple) or a patch (cheaper, safer for large plans). Start with full plans in the spike.
 - **Pattern presets:** if the AI gets multi-clip patterns (run it back, boomerang) wrong, they can become a library kind that expands one clip into several, like ramp presets do for speed.
 - **Beat data:** `beat_sync` needs beat times from the music. Analyse locally, or ask the AI.

@@ -1,4 +1,4 @@
-"""Shared helpers for loading the schemas and the library (effects, transitions, animations, ramps)."""
+"""Shared helpers for loading the schemas and the library (effects, transitions, animations, ramps, text styles)."""
 
 import json
 from pathlib import Path
@@ -10,7 +10,13 @@ SCHEMA_DIR = ROOT / "schema"
 LIBRARY_DIR = ROOT / "library"
 
 # Library folder for each item kind.
-KIND_DIRS = {"effect": "effects", "transition": "transitions", "animation": "animations", "ramp": "ramps"}
+KIND_DIRS = {
+    "effect": "effects",
+    "transition": "transitions",
+    "animation": "animations",
+    "ramp": "ramps",
+    "text_style": "text_styles",
+}
 
 
 def load_json(path):
@@ -38,6 +44,11 @@ def load_library(library_dir=LIBRARY_DIR):
                         errors.append(f"param {name!r} has no {field}")
             if kind == "ramp" and not errors:
                 errors += check_ramp_points(item)
+            if kind == "text_style" and not errors:
+                style_keys = item_schema["properties"]["style"]["properties"]
+                for name in item["params_schema"].get("properties", {}):
+                    if name not in style_keys:
+                        errors.append(f"param {name!r} is not a style key")
             if errors:
                 raise ValueError(f"{path.relative_to(ROOT)}: " + "; ".join(errors))
             library[kind][item["id"]] = item

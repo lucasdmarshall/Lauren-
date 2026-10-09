@@ -1,0 +1,32 @@
+{
+  "id": "meme",
+  "kind": "text_style",
+  "name": "Meme",
+  "description": "Heavy uppercase white text with a black outline, top or bottom of frame. Classic meme format for jokes and reactions.",
+  "tags": [
+    "comedic",
+    "meme"
+  ],
+  "style": {
+    "font": "Anton",
+    "weight": 400,
+    "size": 0.07,
+    "color": "#ffffff",
+    "uppercase": true,
+    "stroke_color": "#000000",
+    "stroke_width": 0.14
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.07,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

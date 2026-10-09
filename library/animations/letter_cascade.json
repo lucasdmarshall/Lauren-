@@ -1,0 +1,27 @@
+{
+  "id": "letter_cascade",
+  "kind": "animation",
+  "name": "Letter cascade",
+  "description": "Letters drop in one by one from above with a small bounce. Playful titles.",
+  "tags": [
+    "playful",
+    "title"
+  ],
+  "duration": {
+    "default": 0.7,
+    "min": 0.2,
+    "max": 2.5
+  },
+  "slots": [
+    "in",
+    "out"
+  ],
+  "applies_to": [
+    "text"
+  ],
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

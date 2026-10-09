@@ -1,0 +1,42 @@
+{
+  "id": "bold_caption",
+  "kind": "text_style",
+  "name": "Bold caption",
+  "description": "Big uppercase captions with a thick outline; the word being spoken turns yellow. The high-retention talking-head style.",
+  "tags": [
+    "captions",
+    "energetic",
+    "retention"
+  ],
+  "style": {
+    "font": "Montserrat",
+    "weight": 900,
+    "size": 0.065,
+    "color": "#ffffff",
+    "uppercase": true,
+    "stroke_color": "#000000",
+    "stroke_width": 0.16,
+    "shadow": 0.5,
+    "highlight_color": "#ffe14d",
+    "highlight_mode": "color"
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "highlight_color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffe14d",
+        "description": "Color marking the word being spoken (captions)."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.065,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

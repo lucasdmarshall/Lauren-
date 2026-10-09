@@ -1,0 +1,39 @@
+{
+  "id": "mono",
+  "kind": "text_style",
+  "name": "Mono",
+  "description": "Monospaced typewriter text. Tech, coding, timestamps and lo-fi aesthetics.",
+  "tags": [
+    "tech",
+    "retro",
+    "lo-fi"
+  ],
+  "style": {
+    "font": "Space Mono",
+    "weight": 700,
+    "size": 0.04,
+    "color": "#ffffff",
+    "background_color": "#000000",
+    "background_opacity": 0.5,
+    "background_radius": 0.1
+  },
+  "params_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "color": {
+        "type": "string",
+        "pattern": "^#[0-9a-fA-F]{6}$",
+        "default": "#ffffff",
+        "description": "Text color."
+      },
+      "size": {
+        "type": "number",
+        "minimum": 0.02,
+        "maximum": 0.2,
+        "default": 0.04,
+        "description": "Text size (fraction of the shorter side)."
+      }
+    }
+  }
+}

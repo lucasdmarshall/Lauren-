@@ -26,6 +26,7 @@ def build_catalog(library):
                 entry["overlap"] = True
             if kind == "animation":
                 entry["slots"] = item.get("slots", ["in", "out"])
+                entry["applies_to"] = item.get("applies_to", ["image", "text"])
             params = item["params_schema"].get("properties", {})
             if params:
                 entry["params"] = params
@@ -72,6 +73,8 @@ def build_compact_catalog(library):
                 flags = " overlap"
             if kind == "animation":
                 flags = " " + "/".join(item.get("slots", ["in", "out"]))
+                if item.get("applies_to", ["image", "text"]) != ["image", "text"]:
+                    flags += " " + "+".join(item["applies_to"]) + "-only"
             line = f"{item['id']} [{','.join(item.get('tags', []))}]{format_duration(item.get('duration'))}{flags}: {item['description']}"
             params = item["params_schema"].get("properties", {})
             if params:

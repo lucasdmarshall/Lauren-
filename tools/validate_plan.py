@@ -15,6 +15,7 @@ from timing import layout, source_to_clip_time
 
 EPSILON = 1e-6
 SPEED_RANGE = (0.05, 16)
+ITEM_COLLECTIONS = ("assets", "clips", "overlays", "texts", "captions", "audio")
 CLIP_KINDS = {"video", "image"}
 OVERLAY_KINDS = {"image", "sticker"}
 
@@ -48,7 +49,7 @@ def in_source(clip, s, where, errors):
 def validate(plan, library):
     errors, warnings = [], []
 
-    ids = [x["id"] for key in ("assets", "clips", "overlays", "audio") for x in plan.get(key, [])]
+    ids = [x["id"] for key in ITEM_COLLECTIONS for x in plan.get(key, [])]
     for dup in sorted({i for i in ids if ids.count(i) > 1}):
         errors.append(f"duplicate id {dup!r}")
 
@@ -162,19 +163,53 @@ def validate(plan, library):
             return None
         return positions[clip["id"]][0] + source_to_clip_time(clip, item["anchor"]["at"])
 
-    for item in plan.get("overlays", []):
-        where = f"overlay {item['id']}"
-        asset_for(item, OVERLAY_KINDS, where)
+    def check_animations(item, where, target):
         for slot in ("in", "out", "loop"):
             animation = item.get(f"animation_{slot}")
-            if animation:
-                awhere = f"{where} animation_{slot}"
-                manifest = check_library_ref(animation, "animation", awhere, library, errors)
-                if manifest and slot not in manifest.get("slots", ["in", "out"]):
-                    errors.append(f"{awhere}: {animation['ref']!r} cannot be used as a {slot} animation")
-        start = placement(item, where)
-        if start is not None and start + item["duration"] > timeline + EPSILON:
-            errors.append(f"{where}: ends at {start + item['duration']:.3f}s after the timeline ends ({timeline:.3f}s)")
+            if not animation:
+                continue
+            awhere = f"{where} animation_{slot}"
+            manifest = check_library_ref(animation, "animation", awhere, library, errors)
+            if not manifest:
+                continue
+            if slot not in manifest.get("slots", ["in", "out"]):
+                errors.append(f"{awhere}: {animation['ref']!r} cannot be used as a {slot} animation")
+            if target not in manifest.get("applies_to", ["image", "text"]):
+                errors.append(f"{awhere}: {animation['ref']!r} does not apply to {target}")
+
+    for key, target in (("overlays", "image"), ("texts", "text")):
+        for item in plan.get(key, []):
+            where = f"{key[:-1]} {item['id']}"
+            if key == "overlays":
+                asset_for(item, OVERLAY_KINDS, where)
+            else:
+                check_library_ref(item["style"], "text_style", f"{where} style", library, errors)
+            check_animations(item, where, target)
+            start = placement(item, where)
+            if start is not None and start + item["duration"] > timeline + EPSILON:
+                errors.append(f"{where}: ends at {start + item['duration']:.3f}s after the timeline ends ({timeline:.3f}s)")
+
+    for item in plan.get("captions", []):
+        where = f"caption {item['id']}"
+        check_library_ref(item["style"], "text_style", f"{where} style", library, errors)
+        check_animations(item, where, "text")
+        clip = clips.get(item["clip"])
+        if clip is None:
+            errors.append(f"{where}: unknown clip {item['clip']!r}")
+            continue
+        if clip.get("reverse"):
+            errors.append(f"{where}: clip {clip['id']} plays in reverse and cannot be captioned")
+        words = item["words"]
+        for w in words:
+            if w["end"] <= w["at"]:
+                errors.append(f"{where}: word {w['text']!r} ends before it starts")
+        if any(b["at"] < a["at"] for a, b in zip(words, words[1:])):
+            errors.append(f"{where}: words must be in spoken order")
+        hidden = [w["text"] for w in words if w["at"] < clip["in"] - EPSILON or w["end"] > clip["out"] + EPSILON]
+        if len(hidden) == len(words):
+            errors.append(f"{where}: no words fall inside clip {clip['id']} ({clip['in']}-{clip['out']})")
+        elif hidden:
+            warnings.append(f"{where}: {len(hidden)} word(s) fall outside clip {clip['id']} and are not shown")
 
     for item in plan.get("audio", []):
         where = f"audio {item['id']}"

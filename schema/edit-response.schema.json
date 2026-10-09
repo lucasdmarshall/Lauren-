@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lauren.app/schema/edit-response/0.1.json",
+  "title": "Lauren Edit Response",
+  "description": "What the edit-stage AI returns for a prompt. A follow-up prompt normally returns a patch: a list of operations on the current plan, addressed by item id. A full plan is returned for a first edit, or when a follow-up rebuilds most of the edit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mode",
+    "summary"
+  ],
+  "properties": {
+    "mode": {
+      "enum": [
+        "patch",
+        "full"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What changed, in one or two sentences, written for the user. Becomes the plan's summary."
+    },
+    "ops": {
+      "type": "array",
+      "description": "Patch mode: operations applied in order.",
+      "items": {
+        "$ref": "#/$defs/op"
+      }
+    },
+    "plan": {
+      "type": "object",
+      "description": "Full mode: the complete new edit plan (validated against edit-plan.schema.json)."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "patch"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "ops"
+        ],
+        "not": {
+          "required": [
+            "plan"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "full"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "plan"
+        ],
+        "not": {
+          "required": [
+            "ops"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,31}$"
+    },
+    "position": {
+      "description": "Id of the item to place this one after, in the same collection. null places it first. Omitted places it last.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/id"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "op": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "op"
+      ],
+      "properties": {
+        "op": {
+          "enum": [
+            "add",
+            "update",
+            "remove",
+            "move"
+          ],
+          "description": "add: insert 'item' into 'to'. update: merge 'set' into the item 'id'. remove: delete the item 'id'. move: reorder the item 'id' within its collection."
+        },
+        "id": {
+          "$ref": "#/$defs/id",
+          "description": "update/remove/move: the target item. update also accepts \"output\" for the output settings."
+        },
+        "to": {
+          "enum": [
+            "clips",
+            "overlays",
+            "texts",
+            "captions",
+            "audio"
+          ],
+          "description": "add: the collection to insert into."
+        },
+        "item": {
+          "type": "object",
+          "description": "add: the new item, with a new unique id."
+        },
+        "after": {
+          "$ref": "#/$defs/position"
+        },
+        "set": {
+          "type": "object",
+          "description": "update: fields to change, as a JSON merge patch. Nested objects are merged, arrays are replaced whole, and null removes a field. A library reference with a different 'ref' replaces the old reference whole."
+        }
+      }
+    }
+  }
+}
