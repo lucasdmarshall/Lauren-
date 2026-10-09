@@ -50,10 +50,21 @@ Schema: [`schema/library-item.schema.json`](../schema/library-item.schema.json)
 ## How the pieces connect
 
 1. `tools/build_catalog.py` turns the manifests into a compact catalog.
-2. The catalog goes into the AI request alongside the clips and the prompt.
+2. The catalog goes into the edit-stage AI request alongside the clip analysis and the prompt (see [Catalog strategy](#catalog-strategy)).
 3. The AI returns an edit plan that references items by id: `{ "ref": "whip", "duration": 0.24, "params": { "direction": "left" } }`.
 4. `tools/validate_plan.py` checks the plan against the schema **and** the library: unknown ids, invalid params, durations out of range, timeline maths including overlapping transitions.
 5. The render engine looks up each item's `render` definition and draws it.
+
+## Catalog strategy
+
+Sending the full catalog with every request is avoided in four layers. The first three apply now; the fourth is added when the library outgrows them.
+
+1. **Only the edit stage sees the catalog.** Video understanding runs once per project and never receives the catalog. Follow-up prompts rerun only the text-only edit stage. See [ARCHITECTURE.md](ARCHITECTURE.md#two-stage-ai-pipeline).
+2. **Compact text format.** One line per item instead of JSON: `whip [energetic,fast,trendy] 0.25s[0.1-0.6]: description | direction=left(left/right/up/down) blur=0.7(0-1)`. For the 105 current items: ~18 KB (about 4.5k tokens) versus ~40 KB as compact JSON.
+3. **Stable, cacheable prefix.** The catalog sits at the start of the prompt with the fixed instructions, before anything that changes per request. Providers with prompt caching bill repeated prefixes at a reduced rate. The catalog text must be byte-identical between requests (sorted, deterministic), which `build_catalog.py` guarantees.
+4. **Local shortlisting (later).** When the library grows to several hundred items, rank items locally before sending: match tags against the requested style and the clip analysis (and later, local text embeddings of descriptions), always keep a few safe defaults (cut, crossfade, pop, fade), and send the top items per kind. Costs nothing, since it runs on the user's machine.
+
+Ruled out: letting the AI look items up through tool calls. Each round trip resends the whole conversation, so it costs more than sending the catalog once.
 
 ## Safety
 
@@ -62,7 +73,6 @@ Flashing items (strobe) are capped at 3 flashes per second, following the WCAG t
 ## Open questions
 
 - **Render format:** the same definition must drive the preview and the export. Candidate: GLSL shaders with parameters as uniforms, which can run in WebGL (preview) and in the Rust engine via wgpu (export). The open-source [gl-transitions](https://github.com/gl-transitions/gl-transitions) collection (MIT) uses this model and could seed the transition library. For the spike, items can map to FFmpeg filters instead.
-- **Catalog size:** the current catalog is about 10k tokens (≈40 KB of compact JSON) per request. With hundreds of items the catalog becomes expensive to send every time. Options: send only items matching the requested style, or a two-step request (pick categories, then items).
 - **Third-party items:** whether creators or partners can add library items later (a marketplace), and how they are sandboxed.
 - **Salt:** placeholder manifest; parameters and render defined during development.
 
