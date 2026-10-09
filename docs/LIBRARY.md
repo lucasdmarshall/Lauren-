@@ -7,7 +7,7 @@ Nothing about individual effects, transitions or animations is hardcoded in the 
 ```
 library/
 ├── transitions/   40 items
-├── effects/       36 items
+├── effects/       35 items
 └── animations/    29 items (in, out and loop animations for overlays)
 ```
 
@@ -136,7 +136,6 @@ Flashing items (strobe) are capped at 3 flashes per second, following the WCAG t
 | `echo` | Echo trails | trippy, dreamy, dance |
 | `exposure_flash` | Exposure flash | impact, energetic |
 | `film_grain` | Film grain | cinematic, subtle |
-| `freeze` | Freeze frame | comedic, emphasis |
 | `glitch` | Glitch | edgy, tech |
 | `glow` | Glow | dreamy, glam |
 | `halftone` | Comic halftone | comedic, graphic, playful |

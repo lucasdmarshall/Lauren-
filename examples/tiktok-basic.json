@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "summary": "Four short clips from the skate session, reordered into a build-up: arrival, warm-up, kickflip, celebration. Cut to the beat with whip and zoom transitions, upbeat music and a fire sticker on the landing.",
+  "summary": "Four short clips from the skate session, reordered into a build-up: arrival, warm-up, kickflip, celebration. The kickflip ramps into slow motion for the landing and back up to speed. Whip, zoom and flash transitions on the beat, upbeat music and a fire sticker on the landing.",
   "output": {
     "aspect_ratio": "9:16",
     "resolution": "1080p",
@@ -97,22 +97,46 @@
       "asset": "v1",
       "in": 2.3,
       "out": 6.0,
+      "speed_ramp": [
+        {
+          "at": 2.3,
+          "speed": 1.5,
+          "easing": "hold"
+        },
+        {
+          "at": 3.7,
+          "speed": 1.5
+        },
+        {
+          "at": 4.0,
+          "speed": 0.3,
+          "easing": "hold"
+        },
+        {
+          "at": 4.6,
+          "speed": 0.3
+        },
+        {
+          "at": 5.0,
+          "speed": 1.5
+        }
+      ],
       "reframe": {
         "mode": "fill",
         "focus_x": 0.55
       },
       "transform": [
         {
-          "t": 0.0,
+          "at": 2.3,
           "scale": 1.0
         },
         {
-          "t": 1.6,
+          "at": 4.0,
           "scale": 1.0,
           "easing": "hold"
         },
         {
-          "t": 1.9,
+          "at": 4.2,
           "scale": 1.35,
           "x": 0.55,
           "y": 0.6,
@@ -122,7 +146,7 @@
       "effects": [
         {
           "ref": "shake",
-          "start": 1.9,
+          "at": 4.2,
           "duration": 0.3,
           "params": {
             "intensity": 0.4
@@ -138,7 +162,7 @@
           "y": 0.6
         }
       },
-      "note": "The kickflip, shot horizontally; reframed onto the rider. Punch-in zoom and shake on the landing."
+      "note": "The kickflip, shot horizontally; reframed onto the rider. Fast run-up, slow motion through the landing, then back to speed. Punch-in zoom and shake on the landing."
     },
     {
       "id": "c4",
@@ -160,16 +184,16 @@
     {
       "id": "o1",
       "asset": "s1",
-      "start": 6.1,
-      "end": 7.6,
+      "anchor": {
+        "clip": "c3",
+        "at": 4.2
+      },
+      "duration": 1.5,
       "x": 0.75,
       "y": 0.25,
       "scale": 0.2,
       "animation_in": {
         "ref": "pop"
-      },
-      "animation_out": {
-        "ref": "fade"
       },
       "animation_loop": {
         "ref": "wiggle",
@@ -182,13 +206,11 @@
     {
       "id": "a1",
       "asset": "m1",
-      "start": 0,
-      "end": 10.8,
       "source_in": 12.0,
       "volume": 0.8,
       "fade_out": 1.0,
       "duck": false,
-      "note": "Starts on the drop; no speech in the clips, so no ducking."
+      "note": "Starts on the drop and runs to the end of the edit, so it adapts to timing changes. No speech in the clips, so no ducking."
     }
   ]
 }

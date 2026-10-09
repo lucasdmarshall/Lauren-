@@ -1,6 +1,8 @@
 """Validate an edit plan against the schema, the library, and the rules the schema cannot express.
 
 Usage: python tools/validate_plan.py PLAN.json [PLAN.json ...]
+
+Exits non-zero if any plan has errors. Warnings are printed but do not fail.
 """
 
 import sys
@@ -8,6 +10,7 @@ import sys
 import jsonschema
 
 from lauren_lib import SCHEMA_DIR, load_json, load_library
+from timing import layout, source_to_clip_time
 
 EPSILON = 1e-6
 CLIP_KINDS = {"video", "image"}
@@ -33,14 +36,22 @@ def check_library_ref(item, kind, where, library, errors):
     return manifest
 
 
+def in_source(clip, s, where, errors):
+    if not clip["in"] - EPSILON <= s <= clip["out"] + EPSILON:
+        errors.append(f"{where}: source time {s} is outside the clip ({clip['in']}-{clip['out']})")
+        return False
+    return True
+
+
 def validate(plan, library):
-    errors = []
+    errors, warnings = [], []
 
     ids = [x["id"] for key in ("assets", "clips", "overlays", "audio") for x in plan.get(key, [])]
     for dup in sorted({i for i in ids if ids.count(i) > 1}):
         errors.append(f"duplicate id {dup!r}")
 
     assets = {a["id"]: a for a in plan["assets"]}
+    clips = {c["id"]: c for c in plan["clips"]}
 
     def asset_for(item, allowed, where):
         asset = assets.get(item["asset"])
@@ -51,39 +62,82 @@ def validate(plan, library):
             asset = None
         return asset
 
-    # Main track: compute timeline length, accounting for overlapping transitions.
-    timeline = 0.0
-    prev_length = None
-    for i, clip in enumerate(plan["clips"]):
+    # Clips: source ranges and speed data. Timing can only be computed once these are sound.
+    timing_ok = True
+    for clip in plan["clips"]:
         where = f"clip {clip['id']}"
         asset = asset_for(clip, CLIP_KINDS, where)
         if clip["out"] <= clip["in"]:
             errors.append(f"{where}: out must be greater than in")
+            timing_ok = False
+            continue
         if asset and asset["kind"] == "video" and "duration" in asset and clip["out"] > asset["duration"] + EPSILON:
             errors.append(f"{where}: out {clip['out']} is past the end of asset {asset['id']} ({asset['duration']})")
-        length = (clip["out"] - clip["in"]) / clip.get("speed", 1)
-
+        ramp = clip.get("speed_ramp", [])
+        if ramp and "speed" in clip:
+            errors.append(f"{where}: use either speed or speed_ramp, not both")
+        for a, b in zip(ramp, ramp[1:]):
+            if b["at"] <= a["at"]:
+                errors.append(f"{where}: speed_ramp points must be in increasing source time")
+                timing_ok = False
+        for point in ramp:
+            in_source(clip, point["at"], f"{where} speed_ramp", errors)
+        for freeze in clip.get("freezes", []):
+            in_source(clip, freeze["at"], f"{where} freeze", errors)
         for kf in clip.get("transform", []):
-            if kf["t"] > length + EPSILON:
-                errors.append(f"{where}: keyframe at {kf['t']} is past the clip's end ({length:.3f})")
+            in_source(clip, kf["at"], f"{where} transform", errors)
+
+    # Transitions decide how much clips overlap on the timeline.
+    overlaps = {}
+    for i, clip in enumerate(plan["clips"]):
+        transition = clip.get("transition_in")
+        if not transition or i == 0:
+            continue
+        manifest = check_library_ref(transition, "transition", f"clip {clip['id']} transition_in", library, errors)
+        duration = transition.get("duration", (manifest or {}).get("duration", {}).get("default", 0))
+        overlaps[clip["id"]] = (duration, bool(manifest and manifest.get("overlap")))
+
+    if not timing_ok:
+        return errors, warnings, None
+
+    overlap_by = {clip_id: duration for clip_id, (duration, overlap) in overlaps.items() if overlap}
+    positions, timeline = layout(plan, lambda clip: overlap_by.get(clip["id"], 0))
+
+    prev = None
+    for clip in plan["clips"]:
+        where = f"clip {clip['id']}"
+        _, length = positions[clip["id"]]
+        if clip["id"] in overlaps and prev is not None:
+            duration = overlaps[clip["id"]][0]
+            if duration > min(length, positions[prev][1]) + EPSILON:
+                errors.append(f"{where} transition_in: duration {duration} is longer than a neighbouring clip")
         for j, effect in enumerate(clip.get("effects", [])):
             ewhere = f"{where} effect {j}"
-            check_library_ref(effect, "effect", ewhere, library, errors)
-            if effect.get("start", 0) + effect.get("duration", 0) > length + EPSILON:
-                errors.append(f"{ewhere}: runs past the clip's end ({length:.3f})")
+            manifest = check_library_ref(effect, "effect", ewhere, library, errors)
+            at = effect.get("at", clip["in"])
+            if not in_source(clip, at, ewhere, errors):
+                continue
+            duration = effect.get("duration", (manifest or {}).get("duration", {}).get("default"))
+            if duration is not None and source_to_clip_time(clip, at) + duration > length + EPSILON:
+                errors.append(f"{ewhere}: runs past the clip's end ({length:.3f}s)")
+        prev = clip["id"]
 
-        transition = clip.get("transition_in")
-        if transition and i > 0:
-            twhere = f"{where} transition_in"
-            manifest = check_library_ref(transition, "transition", twhere, library, errors)
-            if manifest:
-                duration = transition.get("duration", manifest.get("duration", {}).get("default", 0))
-                if duration > min(length, prev_length) + EPSILON:
-                    errors.append(f"{twhere}: duration {duration} is longer than a neighbouring clip")
-                if manifest.get("overlap"):
-                    timeline -= duration
-        timeline += length
-        prev_length = length
+    def placement(item, where):
+        """Timeline start of an overlay or audio item, or None if its anchor is invalid."""
+        if ("start" in item) == ("anchor" in item):
+            if "anchor" in item or where.startswith("overlay"):
+                errors.append(f"{where}: use exactly one of start or anchor")
+                return None
+            return 0.0
+        if "start" in item:
+            return item["start"]
+        clip = clips.get(item["anchor"]["clip"])
+        if clip is None:
+            errors.append(f"{where}: anchor refers to unknown clip {item['anchor']['clip']!r}")
+            return None
+        if not in_source(clip, item["anchor"]["at"], f"{where} anchor", errors):
+            return None
+        return positions[clip["id"]][0] + source_to_clip_time(clip, item["anchor"]["at"])
 
     for item in plan.get("overlays", []):
         where = f"overlay {item['id']}"
@@ -95,24 +149,25 @@ def validate(plan, library):
                 manifest = check_library_ref(animation, "animation", awhere, library, errors)
                 if manifest and slot not in manifest.get("slots", ["in", "out"]):
                     errors.append(f"{awhere}: {animation['ref']!r} cannot be used as a {slot} animation")
+        start = placement(item, where)
+        if start is not None and start + item["duration"] > timeline + EPSILON:
+            errors.append(f"{where}: ends at {start + item['duration']:.3f}s after the timeline ends ({timeline:.3f}s)")
 
     for item in plan.get("audio", []):
         where = f"audio {item['id']}"
         asset = asset_for(item, {"audio"}, where)
-        if asset and "duration" in asset:
-            needed = item.get("source_in", 0) + item["end"] - item["start"]
-            if needed > asset["duration"] + EPSILON:
-                errors.append(f"{where}: needs {needed:.3f}s of audio but asset has {asset['duration']}")
+        start = placement(item, where)
+        if start is None:
+            continue
+        duration = item.get("duration", timeline - start)
+        if start + duration > timeline + EPSILON:
+            errors.append(f"{where}: ends at {start + duration:.3f}s after the timeline ends ({timeline:.3f}s)")
+        if asset and "duration" in asset and not item.get("loop"):
+            available = asset["duration"] - item.get("source_in", 0)
+            if duration > available + EPSILON:
+                warnings.append(f"{where}: track ends {duration - available:.2f}s before its slot does (set loop to repeat it)")
 
-    for key in ("overlays", "audio"):
-        for item in plan.get(key, []):
-            where = f"{key[:-1] if key == 'overlays' else key} {item['id']}"
-            if item["end"] <= item["start"]:
-                errors.append(f"{where}: end must be greater than start")
-            if item["end"] > timeline + EPSILON:
-                errors.append(f"{where}: ends at {item['end']} after the timeline ends ({timeline:.3f})")
-
-    return errors, timeline
+    return errors, warnings, timeline
 
 
 def main(paths):
@@ -123,16 +178,18 @@ def main(paths):
         plan = load_json(path)
         schema_errors = [f"{'/'.join(map(str, e.absolute_path)) or '(root)'}: {e.message}" for e in validator.iter_errors(plan)]
         if schema_errors:
-            errors, timeline = schema_errors, None
+            errors, warnings, timeline = schema_errors, [], None
         else:
-            errors, timeline = validate(plan, library)
+            errors, warnings, timeline = validate(plan, library)
         if errors:
             failed = True
             print(f"{path}: INVALID")
-            for e in errors:
-                print(f"  - {e}")
         else:
             print(f"{path}: valid ({timeline:.2f}s)")
+        for e in errors:
+            print(f"  - error: {e}")
+        for w in warnings:
+            print(f"  - warning: {w}")
     return 1 if failed else 0
 
 

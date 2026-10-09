@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://lauren.app/schema/edit-plan/0.1.json",
   "title": "Lauren Edit Plan",
-  "description": "An edit produced by the AI (or by the user on the timeline). All times are in seconds; the render engine snaps them to the output frame grid. Effects, transitions and animations are not defined here: the plan references items in the library (library/) by id, and their parameters are checked against each item's manifest.",
+  "description": "An edit produced by the AI (or by the user on the timeline). All times are in seconds; the render engine snaps them to the output frame grid. Times inside a clip are source times, so they stay attached to the content when speed or trims change the timeline. Effects, transitions and animations are not defined here: the plan references items in the library (library/) by id, and their parameters are checked against each item's manifest.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -31,7 +31,7 @@
     },
     "clips": {
       "type": "array",
-      "description": "Main video track. Clips play back to back in this order, which the AI chooses (it may differ from upload order and may reuse an asset). The timeline position of each clip is derived, never stored.",
+      "description": "Main video track. Clips play back to back in this order, which the AI chooses (it may differ from upload order and may reuse an asset). Timeline positions and lengths are derived from trims, speed, speed ramps, freezes and overlapping transitions, never stored.",
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/clip"
@@ -191,11 +191,29 @@
           "description": "End time in the source. Must be greater than 'in'. For an image asset, this is how long it is shown."
         },
         "speed": {
-          "type": "number",
-          "exclusiveMinimum": 0,
-          "maximum": 16,
+          "$ref": "#/$defs/speed_value",
           "default": 1,
-          "description": "Timeline duration = (out - in) / speed."
+          "description": "Constant speed. Ignored when 'speed_ramp' is set."
+        },
+        "speed_ramp": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/ramp_point"
+          },
+          "description": "Speed that changes over the clip. Points are in source time, in increasing order. Before the first point the first speed applies; after the last, the last speed."
+        },
+        "freezes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/freeze"
+          },
+          "description": "Freeze frames inserted into the clip."
+        },
+        "preserve_pitch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Keep the clip's audio at its natural pitch when the speed changes."
         },
         "volume": {
           "type": "number",
@@ -209,7 +227,7 @@
         },
         "transform": {
           "type": "array",
-          "description": "Keyframes for zoom and pan. Times are relative to the clip's start on the timeline.",
+          "description": "Keyframes for zoom and pan, anchored to source times.",
           "items": {
             "$ref": "#/$defs/keyframe"
           }
@@ -258,11 +276,11 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "t"
+        "at"
       ],
       "properties": {
-        "t": {
-          "$ref": "#/$defs/seconds"
+        "at": {
+          "$ref": "#/$defs/source_time"
         },
         "scale": {
           "type": "number",
@@ -309,13 +327,14 @@
         "ref": {
           "$ref": "#/$defs/ref"
         },
-        "start": {
-          "$ref": "#/$defs/seconds",
-          "description": "Relative to the clip's start on the timeline. Default: clip start."
+        "at": {
+          "$ref": "#/$defs/source_time",
+          "description": "Where the effect starts. Default: the clip's 'in'."
         },
         "duration": {
-          "$ref": "#/$defs/seconds",
-          "description": "Default: until the clip ends."
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "How long it lasts on screen, in timeline seconds. Default: the item's default duration, or until the clip ends if it has none."
         },
         "params": {
           "$ref": "#/$defs/params"
@@ -353,8 +372,7 @@
       "required": [
         "id",
         "asset",
-        "start",
-        "end"
+        "duration"
       ],
       "properties": {
         "id": {
@@ -365,11 +383,16 @@
         },
         "start": {
           "$ref": "#/$defs/seconds",
-          "description": "Timeline time."
+          "description": "Timeline time. Use either 'start' or 'anchor'."
         },
-        "end": {
-          "$ref": "#/$defs/seconds",
-          "description": "Timeline time. Must be greater than 'start'."
+        "anchor": {
+          "$ref": "#/$defs/anchor",
+          "description": "Start at a moment in a clip. Use either 'start' or 'anchor'."
+        },
+        "duration": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Timeline seconds."
         },
         "x": {
           "$ref": "#/$defs/unit",
@@ -414,9 +437,7 @@
       "additionalProperties": false,
       "required": [
         "id",
-        "asset",
-        "start",
-        "end"
+        "asset"
       ],
       "properties": {
         "id": {
@@ -427,16 +448,26 @@
         },
         "start": {
           "$ref": "#/$defs/seconds",
-          "description": "Timeline time."
+          "description": "Timeline time. Use either 'start' or 'anchor'. Default: 0."
         },
-        "end": {
-          "$ref": "#/$defs/seconds",
-          "description": "Timeline time. Must be greater than 'start'."
+        "anchor": {
+          "$ref": "#/$defs/anchor",
+          "description": "Start at a moment in a clip. Use either 'start' or 'anchor'."
+        },
+        "duration": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Timeline seconds. Default: until the end of the timeline, so music adapts when the edit gets longer or shorter."
         },
         "source_in": {
           "$ref": "#/$defs/seconds",
           "default": 0,
           "description": "Where playback starts inside the track."
+        },
+        "loop": {
+          "type": "boolean",
+          "default": false,
+          "description": "Repeat the track if it is shorter than its duration."
         },
         "volume": {
           "type": "number",
@@ -488,6 +519,79 @@
         },
         "params": {
           "$ref": "#/$defs/params"
+        }
+      }
+    },
+    "source_time": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Time in the clip's source media, between the clip's 'in' and 'out'. Stays attached to the content when timing changes."
+    },
+    "speed_value": {
+      "type": "number",
+      "minimum": 0.05,
+      "maximum": 16,
+      "description": "Playback speed: 1 normal, 0.25 four times slower, 4 four times faster."
+    },
+    "ramp_point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "at",
+        "speed"
+      ],
+      "properties": {
+        "at": {
+          "$ref": "#/$defs/source_time"
+        },
+        "speed": {
+          "$ref": "#/$defs/speed_value"
+        },
+        "easing": {
+          "enum": [
+            "linear",
+            "smooth",
+            "hold"
+          ],
+          "default": "smooth",
+          "description": "How speed changes from this point to the next. hold keeps this speed until the next point."
+        }
+      }
+    },
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "at",
+        "duration"
+      ],
+      "properties": {
+        "at": {
+          "$ref": "#/$defs/source_time",
+          "description": "Frame to hold."
+        },
+        "duration": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "description": "How long the frame is held, in timeline seconds. Adds to the clip's length."
+        }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clip",
+        "at"
+      ],
+      "description": "Places an item at a moment in a clip's content instead of a fixed timeline time, so it follows that moment when timing changes.",
+      "properties": {
+        "clip": {
+          "$ref": "#/$defs/id"
+        },
+        "at": {
+          "$ref": "#/$defs/source_time"
         }
       }
     }
