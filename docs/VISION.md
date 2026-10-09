@@ -45,4 +45,5 @@ People are actually publishing videos edited with Lauren — edited, not generat
 ## Open questions
 
 - Product name spelling: "Lauren" (repo) vs. "Loren".
-- Next rounds: Product & UX (MVP scope), role of AI, technical architecture, business & roadmap.
+- Product & MVP scope: see [PRODUCT.md](PRODUCT.md).
+- Next rounds: technical architecture, business & roadmap.
