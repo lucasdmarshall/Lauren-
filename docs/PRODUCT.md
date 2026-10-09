@@ -8,7 +8,7 @@ These describe the kind of edits Lauren must handle:
 
 1. "Find music that fits this video and add it."
 2. "Adjust this TikTok video with transitions, effects and cuts where needed."
-3. "Make a salt transition between these clips." (A TikTok-style transition cut with master-level, frame-precise timing. Exact spec still to be written.)
+3. "Make a salt transition between these clips." (A TikTok-style transition with master-level, frame-precise timing. The exact spec will be worked out during development.)
 
 ## Input footage
 
@@ -28,7 +28,7 @@ The AI's output is an editable project, not a flattened video.
 | Feature | Notes |
 |---|---|
 | Cut / trim | Core of every edit |
-| Music | Pick and add music that fits the video (see open question on licensing) |
+| Music | User brings their own music; the AI picks and fits tracks to the video. If Lauren searches for music, it uses royalty-free sources only |
 | Transitions | Between clips |
 | Zoom / reframe | Including vertical (9:16) output for TikTok/Reels |
 | Stickers | Overlays |
@@ -56,5 +56,4 @@ JavaScript, Python, C++. These shape the tech stack (Round 3).
 
 ## Open questions
 
-- **Music licensing:** "royalty-free not required" is a legal risk. If Lauren supplies copyrighted music, creators' videos get muted or claimed, and Lauren itself could be liable. Options: the user supplies their own music, or Lauren searches a free/licensed library.
-- **Salt transition spec:** define it precisely enough to implement (cut timing, motion, effects).
+- **Salt transition spec:** emerges during development.

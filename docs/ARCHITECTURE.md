@@ -26,9 +26,9 @@ Why:
 | AI access | OpenRouter |
 | Video understanding | The AI looks at sampled frames (Gemini models) |
 | AI billing | Lauren pays OpenRouter and charges users (subscription/credits) |
-| Preview | Live: edits show immediately in the preview |
+| Preview | Render first, then show: preview is a real render, so it always matches the export |
 | Export | 720p / 1080p / 4K; 9:16, 16:9, 4:3, 1:1 |
-| Privacy | User chooses whether footage is uploaded. A future web version requires upload |
+| Upload | Footage is always uploaded for AI analysis. Users are told plainly it is used only for analysis, not collected |
 
 ## Hardware
 
@@ -36,7 +36,7 @@ The AI step needs no local GPU. Decoding, live preview and rendering (especially
 
 ## Open questions
 
-- **Preview engine:** compositing in the webview (WebCodecs + WebGL) or in Rust. Preview and export must render the same result.
-- **Privacy vs. AI:** frame analysis sends sampled frames to the AI provider. A "local only" mode can avoid uploading the full video but not the frames.
+- **Preview speed:** each edit needs a render before it is shown. Fast low-resolution preview renders keep iteration quick; full quality only on export.
+- **Data handling:** pick OpenRouter providers with no training on / minimal retention of user data, and state this in the privacy policy.
 - **Frame sampling rate:** trade-off between AI cost and edit precision (relevant for frame-precise transitions).
 - **Minimum hardware spec.**

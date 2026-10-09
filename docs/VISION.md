@@ -50,7 +50,4 @@ People are actually publishing videos edited with Lauren — edited, not generat
 
 - [PRODUCT.md](PRODUCT.md): MVP scope
 - [ARCHITECTURE.md](ARCHITECTURE.md): technical architecture
-
-## Open questions
-
-- Next round: business & roadmap.
+- [BUSINESS.md](BUSINESS.md): pricing, go-to-market, roadmap
