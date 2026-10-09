@@ -29,16 +29,26 @@ Clips have no stored timeline position; each starts when the previous one ends. 
 
 Overlays and audio do use timeline times (`start`/`end`), because they are placed against the finished sequence.
 
-### 3. Transitions belong to the incoming clip
-`transition_in` on clip N describes the change from clip N-1. It is centered on the cut (half before, half after) and does not change the total duration. It uses source media beyond `in`/`out` where available.
+### 3. Built for many short clips
+The typical input is several short clips (a few seconds each) uploaded together. The AI combines them into one edit:
 
-### 4. Every item has an id and a note
+- It picks which clips to use, trims each one, and chooses the order. The order can differ from upload order, and an asset can be used more than once.
+- `assets` carries what the AI needs to decide: duration, width/height (orientation for reframing), `has_audio`, and `recorded_at` when the file has it.
+- Images can be clips too: `in` is 0 and `out` is how long the image is shown.
+
+### 4. Transitions never need extra footage
+Short clips usually have no spare footage beyond the part that is used, so a transition only uses media inside `in`/`out`. `transition_in` on clip N describes the change from clip N-1:
+
+- **crossfade, slide:** both clips are visible at once, so they overlap by `duration` and the timeline gets shorter by that amount.
+- **All other types** (whip, zoom, spin, glitch, flash, dip_to_black, salt): applied to the last half of clip N-1 and the first half of clip N. The timeline length does not change.
+
+### 5. Every item has an id and a note
 Ids (`c2`, `o1`, `a1`) let follow-up prompts and the timeline target specific items ("make c2 shorter"). `note` records why the AI made the choice; the UI shows it and it goes back to the AI on the next prompt.
 
-### 5. The AI never writes file paths
+### 6. The AI never writes file paths
 The app builds `assets` (id, kind, duration, label) and sends it to the AI. The AI references ids only. `src` is filled by the app.
 
-### 6. Keep the schema simple for structured output
+### 7. Keep the schema simple for structured output
 Flat objects with a `type` enum, no deep `oneOf` unions. This keeps the schema within what Gemini's structured output mode supports, and keeps invalid plans rare.
 
 ## Rules the schema cannot express
@@ -51,6 +61,7 @@ The app must check these after validation:
 - Overlays and audio end before the end of the timeline.
 - Keyframe and effect times fall within the clip's timeline duration.
 - A transition is no longer than either neighbouring clip.
+- Timeline duration accounts for crossfade/slide overlaps when checking overlay and audio end times.
 
 ## Not in v0.1
 

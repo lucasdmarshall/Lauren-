@@ -38,5 +38,6 @@ The AI step needs no local GPU. Decoding, live preview and rendering (especially
 
 - **Preview speed:** each edit needs a render before it is shown. Fast low-resolution preview renders keep iteration quick; full quality only on export.
 - **Data handling:** pick OpenRouter providers with no training on / minimal retention of user data, and state this in the privacy policy.
+- **Sending many clips to Gemini:** one request with every clip as a separate, id-labelled video part, or the clips joined into one contact video with markers. Measure accuracy and cost in the spike.
 - **Frame sampling rate:** trade-off between AI cost and edit precision (relevant for frame-precise transitions).
 - **Minimum hardware spec.**

@@ -12,7 +12,7 @@ These describe the kind of edits Lauren must handle:
 
 ## Input footage
 
-**Any kind** (talking-head, vlog, gaming, tutorial, etc.). Lauren is not limited to one genre of footage.
+The typical input is **several short clips** uploaded together (phone recordings of a few seconds each). The AI selects, trims, orders and combines them into one video. Any genre of footage is allowed.
 
 ## Editing model: prompt + timeline
 
