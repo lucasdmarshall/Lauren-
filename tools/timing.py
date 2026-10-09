@@ -58,7 +58,14 @@ def _play_time(s0, s1, speed, kind):
 
 
 def source_to_clip_time(clip, s):
-    """Seconds from the clip's start on the timeline to where source time `s` is shown."""
+    """Seconds from the clip's start on the timeline to where source time `s` is shown.
+
+    A reversed clip plays from 'out' down to 'in', so the frames shown before
+    `s` are the ones after it in the source.
+    """
+    if clip.get("reverse"):
+        t = sum(_play_time(max(s0, s), s1, speed, kind) for s0, s1, speed, kind in _pieces(clip) if s1 > s)
+        return t + sum(f["duration"] for f in clip.get("freezes", []) if f["at"] > s)
     t = sum(_play_time(s0, min(s1, s), speed, kind) for s0, s1, speed, kind in _pieces(clip) if s0 < s)
     return t + sum(f["duration"] for f in clip.get("freezes", []) if f["at"] < s)
 

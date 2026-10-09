@@ -53,6 +53,23 @@ class TimingTest(unittest.TestCase):
         self.assertAlmostEqual(source_to_clip_time(c, 2), 2)
         self.assertAlmostEqual(source_to_clip_time(c, 3), 3.5)
 
+    def test_reverse_plays_from_out_to_in(self):
+        c = clip(reverse=True, speed=2)
+        self.assertAlmostEqual(clip_duration(c), 2)
+        self.assertAlmostEqual(source_to_clip_time(c, 4), 0)
+        self.assertAlmostEqual(source_to_clip_time(c, 3), 0.5)
+        self.assertAlmostEqual(source_to_clip_time(c, 0), 2)
+
+    def test_reverse_with_ramp_and_freeze(self):
+        ramp = [{"at": 0, "speed": 1, "easing": "hold"}, {"at": 2, "speed": 0.5}]
+        c = clip(reverse=True, speed_ramp=ramp, freezes=[{"at": 3, "duration": 1}])
+        # Backward: source 4 -> 2 at 0.5x takes 4s (with a 1s freeze at 3), then 2 -> 0 at 1x takes 2s.
+        self.assertAlmostEqual(clip_duration(c), 7)
+        self.assertAlmostEqual(source_to_clip_time(c, 3.5), 1)
+        self.assertAlmostEqual(source_to_clip_time(c, 2), 5)
+        forward = dict(c, reverse=False)
+        self.assertAlmostEqual(clip_duration(forward), clip_duration(c))
+
     def test_layout_with_overlap(self):
         plan = {"clips": [clip(id="a"), clip(id="b"), clip(id="c")]}
         positions, total = layout(plan, lambda c: 1 if c["id"] == "b" else 0)

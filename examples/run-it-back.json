@@ -1,0 +1,58 @@
+{
+  "schema_version": "0.1",
+  "summary": "\"Run it back\": the kickflip plays, rewinds with a VHS effect, then replays in slow motion with a fire sticker on the landing.",
+  "output": { "aspect_ratio": "9:16", "resolution": "1080p", "fps": 30, "background": "blur" },
+  "assets": [
+    { "id": "v1", "kind": "video", "src": "footage/IMG_2041.mp4", "duration": 6.4, "width": 1920, "height": 1080, "has_audio": true, "label": "IMG_2041.mp4" },
+    { "id": "m1", "kind": "audio", "src": "music/upbeat.mp3", "duration": 151.2, "label": "upbeat.mp3" },
+    { "id": "s1", "kind": "sticker", "src": "stickers/fire.png", "label": "fire" }
+  ],
+  "clips": [
+    {
+      "id": "c1",
+      "asset": "v1",
+      "in": 2.3,
+      "out": 4.4,
+      "reframe": { "mode": "fill", "focus_x": 0.55 },
+      "note": "First pass at normal speed, ending just after the landing."
+    },
+    {
+      "id": "c2",
+      "asset": "v1",
+      "in": 3.0,
+      "out": 4.4,
+      "reverse": true,
+      "speed": 3,
+      "volume": 0,
+      "reframe": { "mode": "fill", "focus_x": 0.55 },
+      "transition_in": { "ref": "vhs_rewind", "duration": 0.3 },
+      "note": "Rewind: the same moment backward at 3x, muted."
+    },
+    {
+      "id": "c3",
+      "asset": "v1",
+      "in": 3.0,
+      "out": 6.0,
+      "speed_preset": { "ref": "hero_slowmo", "at": 4.2, "params": { "fast": 1, "slow": 0.25, "before": 0.3, "after": 0.5 } },
+      "reframe": { "mode": "fill", "focus_x": 0.55 },
+      "transition_in": { "ref": "flash", "duration": 0.15 },
+      "note": "Replay in slow motion through the landing."
+    }
+  ],
+  "overlays": [
+    {
+      "id": "o1",
+      "asset": "s1",
+      "anchor": { "clip": "c3", "at": 4.2 },
+      "duration": 1.2,
+      "x": 0.75,
+      "y": 0.25,
+      "scale": 0.2,
+      "animation_in": { "ref": "stamp" },
+      "note": "Lands with the replayed landing."
+    }
+  ],
+  "audio": [
+    { "id": "a1", "asset": "m1", "source_in": 12.0, "volume": 0.8, "fade_out": 0.8, "duck": false }
+  ]
+}

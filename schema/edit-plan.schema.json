@@ -190,6 +190,11 @@
           "$ref": "#/$defs/seconds",
           "description": "End time in the source. Must be greater than 'in'. For an image asset, this is how long it is shown."
         },
+        "reverse": {
+          "type": "boolean",
+          "default": false,
+          "description": "Play the clip backward, from 'out' to 'in'. Source times keep pointing at the same frames, and speed, ramps, freezes and effects still apply. The clip's own audio also plays backward; set volume to 0 to mute it."
+        },
         "speed": {
           "$ref": "#/$defs/speed_value",
           "default": 1,
