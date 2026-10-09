@@ -42,8 +42,15 @@ Generating video with AI is expensive and gives up control over real footage. La
 
 People are actually publishing videos edited with Lauren — edited, not generated.
 
+## Non-goals
+
+- **Video generation.** Lauren never synthesizes video; it only edits real footage.
+
+## Related documents
+
+- [PRODUCT.md](PRODUCT.md): MVP scope
+- [ARCHITECTURE.md](ARCHITECTURE.md): technical architecture
+
 ## Open questions
 
-- Product name spelling: "Lauren" (repo) vs. "Loren".
-- Product & MVP scope: see [PRODUCT.md](PRODUCT.md).
-- Next rounds: technical architecture, business & roadmap.
+- Next round: business & roadmap.
