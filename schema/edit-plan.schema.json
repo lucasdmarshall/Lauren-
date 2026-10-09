@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lauren.app/schema/edit-plan/0.1.json",
+  "title": "Lauren Edit Plan",
+  "description": "An edit produced by the AI (or by the user on the timeline). All times are in seconds; the render engine snaps them to the output frame grid.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "output", "assets", "clips"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "summary": {
+      "type": "string",
+      "description": "Short description of the edit, written by the AI for the user."
+    },
+    "output": { "$ref": "#/$defs/output" },
+    "assets": {
+      "type": "array",
+      "description": "Media the plan can use. The app fills this list; the AI only references ids.",
+      "items": { "$ref": "#/$defs/asset" }
+    },
+    "clips": {
+      "type": "array",
+      "description": "Main video track. Clips play back to back in this order; the timeline position of each clip is derived, never stored.",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/clip" }
+    },
+    "overlays": {
+      "type": "array",
+      "description": "Stickers and images placed above the main track.",
+      "items": { "$ref": "#/$defs/overlay" }
+    },
+    "audio": {
+      "type": "array",
+      "description": "Music and other audio placed under the main track.",
+      "items": { "$ref": "#/$defs/audio" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,31}$",
+      "description": "Stable id, so follow-up prompts and the timeline can refer to an item."
+    },
+    "seconds": { "type": "number", "minimum": 0 },
+    "unit": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Normalized frame coordinate: 0 = left/top, 1 = right/bottom."
+    },
+    "note": {
+      "type": "string",
+      "description": "Why the AI made this choice. Shown in the UI and fed back on follow-up prompts."
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["aspect_ratio", "resolution", "fps"],
+      "properties": {
+        "aspect_ratio": { "enum": ["9:16", "16:9", "4:3", "1:1"] },
+        "resolution": {
+          "enum": ["720p", "1080p", "4k"],
+          "description": "Size of the shorter side: 720, 1080 or 2160 pixels."
+        },
+        "fps": { "enum": [24, 25, 30, 50, 60] },
+        "background": {
+          "enum": ["black", "blur"],
+          "default": "blur",
+          "description": "What fills empty space when a clip is reframed with mode 'fit'."
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "enum": ["video", "audio", "image", "sticker"] },
+        "src": { "type": "string", "description": "Local path or URL. Set by the app, never by the AI." },
+        "duration": { "$ref": "#/$defs/seconds" },
+        "label": { "type": "string", "description": "Human-readable name, e.g. the file name." }
+      }
+    },
+    "clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "asset", "in", "out"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "asset": { "$ref": "#/$defs/id" },
+        "in": { "$ref": "#/$defs/seconds", "description": "Start time in the source." },
+        "out": { "$ref": "#/$defs/seconds", "description": "End time in the source. Must be greater than 'in'." },
+        "speed": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16,
+          "default": 1,
+          "description": "Timeline duration = (out - in) / speed."
+        },
+        "volume": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2,
+          "default": 1,
+          "description": "Volume of the clip's own audio. 0 mutes it."
+        },
+        "reframe": { "$ref": "#/$defs/reframe" },
+        "transform": {
+          "type": "array",
+          "description": "Keyframes for zoom and pan. Times are relative to the clip's start on the timeline.",
+          "items": { "$ref": "#/$defs/keyframe" }
+        },
+        "effects": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/effect" }
+        },
+        "transition_in": {
+          "$ref": "#/$defs/transition",
+          "description": "Transition from the previous clip into this one. Ignored on the first clip."
+        },
+        "note": { "$ref": "#/$defs/note" }
+      }
+    },
+    "reframe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "description": "How a source with a different aspect ratio fits the output.",
+      "properties": {
+        "mode": {
+          "enum": ["fill", "fit"],
+          "description": "fill: crop to cover the frame. fit: show the whole source over the background."
+        },
+        "focus_x": { "$ref": "#/$defs/unit", "default": 0.5 },
+        "focus_y": { "$ref": "#/$defs/unit", "default": 0.5 }
+      }
+    },
+    "keyframe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t"],
+      "properties": {
+        "t": { "$ref": "#/$defs/seconds" },
+        "scale": { "type": "number", "minimum": 0.1, "maximum": 10, "default": 1 },
+        "x": { "$ref": "#/$defs/unit", "default": 0.5, "description": "Horizontal center of the zoom." },
+        "y": { "$ref": "#/$defs/unit", "default": 0.5, "description": "Vertical center of the zoom." },
+        "rotation": { "type": "number", "minimum": -360, "maximum": 360, "default": 0 },
+        "easing": { "enum": ["linear", "ease_in", "ease_out", "ease_in_out", "hold"], "default": "ease_in_out" }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": { "enum": ["shake", "flash", "blur", "black_white"] },
+        "start": { "$ref": "#/$defs/seconds", "description": "Relative to the clip's start on the timeline. Default: clip start." },
+        "duration": { "$ref": "#/$defs/seconds", "description": "Default: until the clip ends." },
+        "intensity": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.5 }
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": ["cut", "crossfade", "dip_to_black", "slide", "zoom", "whip", "spin", "glitch", "flash", "salt"],
+          "description": "'salt' is reserved; its exact behaviour is defined during development."
+        },
+        "duration": {
+          "$ref": "#/$defs/seconds",
+          "default": 0.3,
+          "description": "Centered on the cut: half before, half after. Uses source media beyond 'in'/'out' when available."
+        },
+        "direction": { "enum": ["left", "right", "up", "down"], "description": "For slide, whip and spin." },
+        "beat_sync": {
+          "type": "boolean",
+          "default": false,
+          "description": "Snap the cut to the nearest beat of the music."
+        }
+      }
+    },
+    "overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "asset", "start", "end"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "asset": { "$ref": "#/$defs/id" },
+        "start": { "$ref": "#/$defs/seconds", "description": "Timeline time." },
+        "end": { "$ref": "#/$defs/seconds", "description": "Timeline time. Must be greater than 'start'." },
+        "x": { "$ref": "#/$defs/unit", "default": 0.5 },
+        "y": { "$ref": "#/$defs/unit", "default": 0.5 },
+        "scale": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 1,
+          "default": 0.25,
+          "description": "Width as a fraction of the output width."
+        },
+        "rotation": { "type": "number", "minimum": -360, "maximum": 360, "default": 0 },
+        "animation_in": { "enum": ["none", "pop", "fade", "slide_up"], "default": "pop" },
+        "animation_out": { "enum": ["none", "pop", "fade", "slide_down"], "default": "fade" },
+        "note": { "$ref": "#/$defs/note" }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "asset", "start", "end"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "asset": { "$ref": "#/$defs/id" },
+        "start": { "$ref": "#/$defs/seconds", "description": "Timeline time." },
+        "end": { "$ref": "#/$defs/seconds", "description": "Timeline time. Must be greater than 'start'." },
+        "source_in": { "$ref": "#/$defs/seconds", "default": 0, "description": "Where playback starts inside the track." },
+        "volume": { "type": "number", "minimum": 0, "maximum": 2, "default": 1 },
+        "fade_in": { "$ref": "#/$defs/seconds", "default": 0 },
+        "fade_out": { "$ref": "#/$defs/seconds", "default": 0 },
+        "duck": {
+          "type": "boolean",
+          "default": true,
+          "description": "Lower this track automatically while someone speaks in the clips."
+        },
+        "note": { "$ref": "#/$defs/note" }
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "0.1",
+  "summary": "Three fastest moments from the skate session, cut to the beat with a whip and a zoom transition, upbeat music and a fire sticker on the trick.",
+  "output": { "aspect_ratio": "9:16", "resolution": "1080p", "fps": 30, "background": "blur" },
+  "assets": [
+    { "id": "v1", "kind": "video", "src": "footage/skate_01.mp4", "duration": 42.5, "label": "skate_01.mp4" },
+    { "id": "v2", "kind": "video", "src": "footage/skate_02.mp4", "duration": 18.0, "label": "skate_02.mp4" },
+    { "id": "m1", "kind": "audio", "src": "music/upbeat.mp3", "duration": 151.2, "label": "upbeat.mp3" },
+    { "id": "s1", "kind": "sticker", "src": "stickers/fire.png", "label": "fire" }
+  ],
+  "clips": [
+    {
+      "id": "c1",
+      "asset": "v1",
+      "in": 3.2,
+      "out": 6.0,
+      "reframe": { "mode": "fill", "focus_x": 0.42 },
+      "note": "Strong opener: rider enters the frame."
+    },
+    {
+      "id": "c2",
+      "asset": "v1",
+      "in": 21.4,
+      "out": 25.1,
+      "reframe": { "mode": "fill", "focus_x": 0.55 },
+      "transform": [
+        { "t": 0.0, "scale": 1.0 },
+        { "t": 1.6, "scale": 1.0, "easing": "hold" },
+        { "t": 1.9, "scale": 1.35, "x": 0.55, "y": 0.6, "easing": "ease_out" }
+      ],
+      "effects": [{ "type": "shake", "start": 1.9, "duration": 0.3, "intensity": 0.4 }],
+      "transition_in": { "type": "whip", "duration": 0.25, "direction": "left", "beat_sync": true },
+      "note": "The kickflip. Punch-in zoom and shake on the landing."
+    },
+    {
+      "id": "c3",
+      "asset": "v2",
+      "in": 2.0,
+      "out": 7.5,
+      "speed": 1.25,
+      "reframe": { "mode": "fill" },
+      "transition_in": { "type": "zoom", "duration": 0.3, "beat_sync": true },
+      "note": "Slightly sped up so the outro stays short."
+    }
+  ],
+  "overlays": [
+    {
+      "id": "o1",
+      "asset": "s1",
+      "start": 4.6,
+      "end": 6.2,
+      "x": 0.75,
+      "y": 0.25,
+      "scale": 0.2,
+      "animation_in": "pop",
+      "note": "Highlights the landing."
+    }
+  ],
+  "audio": [
+    {
+      "id": "a1",
+      "asset": "m1",
+      "start": 0,
+      "end": 10.9,
+      "source_in": 12.0,
+      "volume": 0.8,
+      "fade_out": 1.0,
+      "duck": false,
+      "note": "Starts on the drop; no speech in the clips, so no ducking."
+    }
+  ]
+}
