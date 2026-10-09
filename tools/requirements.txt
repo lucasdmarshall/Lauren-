@@ -1,1 +1,3 @@
 jsonschema>=4.18
+# Beat analysis (tools/beats.py analyze); everything else works without it.
+librosa>=0.10

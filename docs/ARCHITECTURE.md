@@ -41,6 +41,8 @@ Risk: stage 2 can only use what stage 1 wrote down. Frame-precise decisions (exa
 |---|---|
 | Desktop shell | Tauri: JS/TS UI + Rust core |
 | AI access | OpenRouter |
+| Beat analysis | Local (librosa in the spike; a Rust equivalent in the app). No AI cost |
+| Follow-up prompts | AI returns a patch of id-addressed ops; a full plan only for rebuilds |
 | Video understanding | The AI looks at sampled frames (Gemini models) |
 | AI billing | Lauren pays OpenRouter and charges users (subscription/credits) |
 | Preview | Render first, then show: preview is a real render, so it always matches the export |

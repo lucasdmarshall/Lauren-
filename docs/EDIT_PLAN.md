@@ -126,6 +126,24 @@ The app builds `assets` (id, kind, duration, label) and sends it to the AI. The 
 ### 11. Keep the schema simple for structured output
 Flat objects with a `type` enum, no deep `oneOf` unions. This keeps the schema within what Gemini's structured output mode supports, and keeps invalid plans rare.
 
+## Music beats
+
+Beat analysis runs locally (`tools/beats.py analyze`, librosa): no AI cost, and more precise than asking a model. The app stores the result on the audio asset:
+
+```json
+{ "id": "m1", "kind": "audio", "bpm": 120, "beats": [0.52, 1.02, 1.52, ...], "downbeats": [0.52, 2.52, ...] }
+```
+
+The AI sees the beats and places cuts close to them, marking those transitions `"beat_sync": true`. It does not need exact arithmetic: when the plan is saved, `tools/beats.py snap` moves each `beat_sync` cut onto the nearest beat (within 0.25 s) by trimming or extending the previous clip, accounting for clip speed, reverse and where the music starts. Snapping happens on save, not in the renderer, so the saved plan is exactly what gets rendered and `timing.py` never needs to know about music.
+
+## Saving a plan
+
+Every AI response goes through the same steps before it replaces the current plan:
+
+1. Apply the response (`tools/apply_patch.py`): a patch to the current plan, or a full plan.
+2. Snap `beat_sync` cuts to beats (`tools/beats.py snap`).
+3. Validate (`tools/validate_plan.py`). If it fails, keep the previous plan and send the errors back to the AI to fix.
+
 ## Follow-up prompts: patches
 
 Schema: [`schema/edit-response.schema.json`](../schema/edit-response.schema.json). Applied by `tools/apply_patch.py`; example: [`examples/followup-patch.json`](../examples/followup-patch.json).
@@ -165,4 +183,3 @@ Color grading beyond the library looks, multiple video tracks (picture-in-pictur
 ## Open questions
 
 - **Pattern presets:** if the AI gets multi-clip patterns (run it back, boomerang) wrong, they can become a library kind that expands one clip into several, like ramp presets do for speed.
-- **Beat data:** `beat_sync` needs beat times from the music. Analyse locally, or ask the AI.

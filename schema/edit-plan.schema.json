@@ -177,6 +177,25 @@
           "type": "string",
           "format": "date-time",
           "description": "Capture time from file metadata, if known. Helps the AI order clips."
+        },
+        "bpm": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Audio assets: tempo, from local beat analysis. Set by the app."
+        },
+        "beats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/seconds"
+          },
+          "description": "Audio assets: beat times in the track (source seconds), from local beat analysis. Set by the app."
+        },
+        "downbeats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/seconds"
+          },
+          "description": "Audio assets: the first beat of each bar, a subset of 'beats'. Strongest places for big cuts and drops."
         }
       }
     },
@@ -381,7 +400,7 @@
         "beat_sync": {
           "type": "boolean",
           "default": false,
-          "description": "Snap the cut to the nearest beat of the music."
+          "description": "Move this cut onto the nearest music beat. The app does this when the plan is saved (tools/beats.py snap), by trimming or extending the previous clip; the AI only needs to place the cut close to a beat."
         },
         "params": {
           "$ref": "#/$defs/params"
